@@ -64,7 +64,25 @@
       <section class="mt-3">
         <div class="card my-2">
           <div class="card-body">
-            <h5 class="card-title mb-0">Gastos totales</h5>
+            <h5 class="card-title mb-0">Estado</h5>
+            <p class="textoImporte mb-2">Limite: <span id="limiteEstado"></span></p>
+            <div class="card-text">
+              <div class="d-flex justify-content-between">
+                <p class="mb-0">$0</p>
+                <p id="limiteEstadoBar" class="mb-0"></p>
+              </div>
+              <div class="progress">
+                <div id="progressBar" class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p class="mt-2 mb-0">Restante: <span id="saldoRestante" class="fw-bold"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="mb-1">
+        <div class="card my-2">
+          <div class="card-body">
+            <h5 class="card-title mb-2">Gastos totales</h5>
             <div class="card-text">
               <p class="my-0">
                 Efectivo: <span id="efectivoPropio" class="fw-bold"></span> /
@@ -138,6 +156,8 @@
         type="button"
         class="btn btn-info w-100 py-3 mb-3"
         id="btnModificarLimite"
+        data-bs-toggle="modal"
+        data-bs-target="#modalLimite"
       >
         Modificar limite
       </button>
@@ -260,6 +280,53 @@
                 Iniciar
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="modalLimite"
+      tabindex="-1"
+      aria-labelledby="tituloModal3"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tituloModal3">Modificar limite</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="" id="formularioLimite">
+              <div>
+                <label for="importe" class="mb-2">Nuevo limite</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="limite"
+                  placeholder="Limite"
+                />
+                <p class="textoImporte mt-0">Actual: <span id="limiteActual"></span></p>
+                <div class="invalid-feedback" id="invalidLimite">
+                  Cargue un valor valido
+                </div>
+              </div>
+              <div class="text-end">
+                <button
+                  type="submit"
+                  class="btn btn-info mt-2"
+                  id="btnModificar"
+                >
+                  Modificar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -10,27 +10,38 @@ import { loadInfo, actualizarInfo, cargarGasto, loadGastos, loadDeudas, transfer
 let campoImporte = document.getElementById("importe");
 let campoCuenta = document.getElementById("cuenta");
 let campoComentario = document.getElementById("comentario");
+let campoLimite = document.getElementById("limite");
 let botonBorrar = document.getElementById("reset");
 let formulario = document.getElementById("formularioFondeo");
+let formularioLimite = document.getElementById("formularioLimite");
 let botonTransferencia = document.getElementById("btnTransferir");
 let botonAñadir = document.getElementById("btnAgregarFondos");
 let botonTrasferirDatos = document.getElementById("btnTransferirDatos");
+let botonModificarLimite = document.getElementById("btnModificarLimite");
+let progressBar = document.getElementById("progressBar");
 
 let transferencia=false;
 let total, totalPropio, totalPapas, diferencia,efectivoPropio,efectivoPapas,TC,TCPropio,TD;
 let info = await loadInfo(false);
 cargarGastos().then(() => {
+  progressBar.style.width = "0%";
   document.getElementById("loadingSpinner").style.opacity = "0";
-  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
+  setTimeout(()=>{
+    document.getElementById("loadingSpinner").style.display = "none"
+    loadProgressBar();
+  },350);
 });
 
 campoImporte.addEventListener("blur", () => {
   campoRequerido(campoImporte);
   validarNumeros(campoImporte);
 });
-
 campoCuenta.addEventListener("blur", () => {
   campoRequeridoSelect(campoCuenta);
+});
+campoLimite.addEventListener("blur", () => {
+  campoRequerido(campoLimite);
+  validarNumeros(campoImporte);
 });
 botonBorrar.addEventListener("click", () => {
   document.getElementById("reset").disabled = true;
@@ -54,11 +65,15 @@ botonAñadir.addEventListener("click", () => {
   document.getElementById("btnAñadir").innerHTML = "Añadir";
   document.getElementById("btnAñadir").classList = "btn btn-success mt-2";
 });
+botonModificarLimite.addEventListener("click", () => {
+
+});
 /*botonTrasferirDatos.addEventListener("click", () => {
   transferirDatos();
 });*/
 
 formulario.addEventListener("submit", guardarFondeo);
+formularioLimite.addEventListener("submit", guardarLimite);
 
 function guardarFondeo(e) {
   e.preventDefault();
@@ -198,7 +213,29 @@ async function cargarGastos() {
   document.getElementById("promedio").innerHTML = "$" + promedio;
   document.getElementById("promedioPropio").innerHTML = "$" + promedioPropio;
 
+  document.getElementById("limiteActual").innerHTML = "$" + info.limite;
+  document.getElementById("limiteEstado").innerHTML = "$" + info.limite;
+  document.getElementById("limiteEstadoBar").innerHTML = "$" + info.limite;
+
   return total;
+}
+
+function loadProgressBar(){
+  let limite = info.limite;
+
+  let progreso = Math.round((total/limite)*100);
+  progressBar.style.width = progreso + "%";
+  progressBar.innerHTML = progreso + "%";
+
+  if(progreso>=85){
+    progressBar.className = "progress-bar bg-danger progress-bar-striped progress-bar-animated";
+  }
+  else if(progreso>=75){
+    progressBar.className = "progress-bar bg-warning progress-bar-striped progress-bar-animated";
+  }
+
+  let restante = limite - total;
+  document.getElementById("saldoRestante").innerHTML = "$" + restante;
 }
 
 function getFechaFinalPeriodo(fechaInicial){
@@ -279,6 +316,22 @@ async function iniciarNuevoPeriodo(){
     showConfirmButton: false,
   }).then(() => {
     window.location.href = "/index.html";
+  });
+}
+
+function guardarLimite(e){
+  e.preventDefault();
+  info.limite = parseFloat(campoLimite.value);
+  actualizarInfo(info);
+  Swal.fire({
+    title: "Limite actualizado",
+    text: "Se ha actualizado correctamente el limite",
+    icon: "success",
+    timer: 2000,
+    showCancelButton: false,
+    showConfirmButton: false,
+  }).then(() => {
+    window.location.href = "/pages/user.html";
   });
 }
 
