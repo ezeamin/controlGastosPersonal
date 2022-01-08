@@ -241,13 +241,13 @@ async function cargarTransferencia(){
   }).then(() => {
     window.location.href = "/pages/user.html";
   });
-
 }
 
 const transferirDatos = async () => {
   let gastos = JSON.parse(localStorage.getItem("gastos"));
   let deudas = JSON.parse(localStorage.getItem("deudas"));
   let proxPagos = JSON.parse(localStorage.getItem("pagos"));
+  let info = JSON.parse(localStorage.getItem("info"));
 
   const res = await fetch("/transfer", {
     method: "POST",
