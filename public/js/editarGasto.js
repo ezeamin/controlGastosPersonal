@@ -23,7 +23,8 @@ let info = await loadInfo(false);
 let gasto;
 traerInfo().then(gastoC => {
   gasto = gastoC;
-  document.getElementById("loadingSpinner").style.display = "none";
+  document.getElementById("loadingSpinner").style.opacity = "0";
+  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });
 
 async function traerInfo() {

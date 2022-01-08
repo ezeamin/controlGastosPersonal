@@ -61,7 +61,10 @@ router.get("/gastos/:min", async (req, res) => {
   let gastos;
   if (min == -1) {
     gastos = await DbGastos.find({}, "pago origen importe categoria");
-  } else
+  } else if(min == -2){
+    gastos = await DbGastos.find({}).sort({ mongoDate: -1 });
+  } 
+  else
     gastos = await DbGastos.find({}).sort({ mongoDate: -1 }).skip(min).limit(10);
 
   res.status(200).json(gastos);
@@ -191,7 +194,7 @@ router.get("*", (req, res) => {
 //
 
 class Gasto {
-  constructor(concepto,categoria,importe,origen,pago,comentario,codigo,fecha,debo) {
+  constructor(concepto,categoria,importe,origen,pago,comentario,codigo,fecha,debo,mongoDate) {
     this.concepto = concepto;
     this.categoria = categoria;
     this.importe = importe;
@@ -201,7 +204,7 @@ class Gasto {
     this.codigo = codigo;
     this.fecha = fecha;
     this.debo = debo;
-    this.mongoDate = new Date();
+    this.mongoDate = mongoDate;
   }
 }
 
@@ -214,6 +217,13 @@ const transferir = (datos) => {
   DbInfo.create(info);
 
   gastos.forEach((gasto) => {
+    let timeSplit = gasto.fecha.split("-");
+    timeSplit[0]=timeSplit[0].trim();
+    timeSplit[1]=timeSplit[1].trimStart();
+    let date = timeSplit[0].split("/");
+    let time = timeSplit[1].split(":");
+    let mongoDate = new Date(date[2], date[1], date[0], time[0], time[1], time[2]);
+    
     newGasto = new Gasto(
       gasto.concepto,
       gasto.categoria,
@@ -224,6 +234,7 @@ const transferir = (datos) => {
       gasto.codigo,
       gasto.fecha,
       gasto.debo,
+      mongoDate
     )
 
     DbGastos.create(newGasto);

@@ -29,7 +29,8 @@ let pagos;
 loadPagos().then(pagosC=>{
   pagos = pagosC;
   cargarDatosTabla();
-  document.getElementById("loadingSpinner").style.display = "none";
+  document.getElementById("loadingSpinner").style.opacity = "0";
+  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });
 
 campoConcepto.addEventListener("blur", () => {

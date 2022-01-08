@@ -23,7 +23,8 @@ let deudas;
 loadDeudas(false).then((deudasC) => {
   deudas = deudasC;
   cargarTabla();
-  document.getElementById("loadingSpinner").style.display = "none";
+  document.getElementById("loadingSpinner").style.opacity = "0";
+  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });
 
 let campoNombre = document.getElementById("nombre");

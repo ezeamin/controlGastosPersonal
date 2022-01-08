@@ -11,8 +11,10 @@ export async function loadInfo(desactivarSpinner) {
   } catch (err) {
     console.log(err);
   }
-  if (desactivarSpinner)
-    document.getElementById("loadingSpinner").style.display = "none";
+  if (desactivarSpinner){
+    document.getElementById("loadingSpinner").style.opacity = "0";
+    setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
+  }
   return info;
 }
 

@@ -17,7 +17,8 @@ let btnCargarMas = document.getElementById("cargarMas");
 let max = 10;
 let info = await loadInfo(false);
 cargarGastos().then(() => {
-  document.getElementById("loadingSpinner").style.display = "none";
+  document.getElementById("loadingSpinner").style.opacity = "0";
+  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });
 
 campoOrigen.addEventListener("blur", () => {
@@ -51,15 +52,16 @@ btnCargarMas.addEventListener("click", async () => {
   document.getElementById("loadingScreen").style.display = "none";
 });
 
-function filtrarTabla(categoria, pago, origen) {
-  let gastos = JSON.parse(localStorage.getItem("gastos")) || [];
-  let listaFiltrada = gastos.reverse();
+async function filtrarTabla(categoria, pago, origen) {
+  document.getElementById("loadingScreen").style.display = "flex";
+  let listaFiltrada = await loadGastos(-2);
 
   if (categoria == 0 && origen == 0 && pago == 0) {
     limpiarTabla();
     max = 10;
-    cargarLocalStorage();
-    btnCargarMas.style.display = "block";
+    cargarGastos().then(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+    });
     return;
   }
 
@@ -116,6 +118,7 @@ function filtrarTabla(categoria, pago, origen) {
     listaFiltrada.forEach((itemGasto) => {
       crearFila(itemGasto);
     });
+    document.getElementById("loadingScreen").style.display = "none";
   }
 }
 

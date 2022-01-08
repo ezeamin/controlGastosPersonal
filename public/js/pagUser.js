@@ -19,7 +19,8 @@ let botonTrasferirDatos = document.getElementById("btnTransferirDatos");
 let transferencia=false;
 let info = await loadInfo(false);
 cargarGastos().then(() => {
-  document.getElementById("loadingSpinner").style.display = "none";
+  document.getElementById("loadingSpinner").style.opacity = "0";
+  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });
 
 campoImporte.addEventListener("blur", () => {
@@ -54,9 +55,9 @@ botonAñadir.addEventListener("click", () => {
   document.getElementById("btnAñadir").innerHTML = "Añadir";
   document.getElementById("btnAñadir").classList = "btn btn-success mt-2";
 });
-botonTrasferirDatos.addEventListener("click", () => {
+/*botonTrasferirDatos.addEventListener("click", () => {
   transferirDatos();
-});
+});*/
 
 formulario.addEventListener("submit", guardarFondeo);
 
@@ -161,19 +162,30 @@ async function cargarGastos() {
   let totalPropio = efectivoPropio + TD + TCPropio;
   let totalPapas = efectivoPapas + (TC - TCPropio);
 
-  let totalPropioPorcentaje = Math.round((totalPropio * 100) / total);
-  let totalPapasPorcentaje = Math.round((totalPapas * 100) / total);
+  let totalPropioPorcentaje;
+  let totalPapasPorcentaje;
+  if(total!=0){
+    totalPropioPorcentaje = Math.round((totalPropio * 100) / total);
+    totalPapasPorcentaje = Math.round((totalPapas * 100) / total);
+  }
 
   document.getElementById("totalGastos").innerHTML = "$" + total;
+  document.getElementById("totalGastos2").innerHTML = "$" + total;
   if(total!=0) document.getElementById("porcentajes").innerHTML = totalPropioPorcentaje + "% / " + totalPapasPorcentaje + "%";
   else document.getElementById("porcentajes").innerHTML = "0% / 0%";
+  document.getElementById("totalPropio").innerHTML = "$" + totalPropio;
 
   document.getElementById("name").innerHTML = info.nombre;
 
   let txtPrimerIngreso = document.getElementById("fechaInicial");
   let fechaInicial = info.fecha.split("/");
   let fechaFinal = new Date();
+  let fechaFinalPeriodo = getFechaFinalPeriodo(fechaInicial);
   let diferencia = Math.floor((fechaFinal.getTime() - new Date(fechaInicial[2], fechaInicial[1]-1, fechaInicial[0]).getTime()) / (1000 * 3600 * 24)) + 1 ;
+  let diasRestantes = Math.floor((fechaFinalPeriodo.getTime() - fechaFinal.getTime()) / (1000 * 3600 * 24)) + 1 ;
+
+  if(diasRestantes!=1) document.getElementById("diasRestantes").innerHTML = diasRestantes + " días";
+  else document.getElementById("diasRestantes").innerHTML = diasRestantes + " día";
 
   fechaFinal =
     fechaFinal.getDate() +
@@ -182,13 +194,31 @@ async function cargarGastos() {
     "/" +
     fechaFinal.getFullYear();
 
-  if(diferencia == 1) txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinal + " (" + (diferencia) + " dia)";
-  else txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinal + " (" + (diferencia) + " dias)";
+  txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinal;
+  document.getElementById("dias").innerHTML = diferencia;
 
   let promedio = Math.round(total / diferencia);
+  let promedioPropio = Math.round(totalPropio / diferencia);
   document.getElementById("promedio").innerHTML = "$" + promedio;
+  document.getElementById("promedioPropio").innerHTML = "$" + promedioPropio;
 
   return total;
+}
+
+function getFechaFinalPeriodo(fechaInicial){
+  let fechaFinal;
+  if(fechaInicial[0]==31){
+    if(fechaInicial[1]!=7 && fechaInicial[1]!=12) fechaInicial[0]=30;
+  }
+  if(fechaInicial[0]>28 && fechaInicial[1]==1){
+    fechaInicial[0]-=28;
+    fechaInicial[1]=3;
+  }
+
+  if(fechaInicial[1]!=12) fechaFinal = new Date(fechaInicial[2], fechaInicial[1]-1, parseInt(fechaInicial[0])-1);
+  else fechaFinal = new Date(parseInt(fechaInicial[2])+1, 0, parseInt(fechaInicial[0])-1);
+
+  return fechaFinal;
 }
 
 async function cargarTransferencia(){
@@ -242,7 +272,7 @@ async function cargarTransferencia(){
     window.location.href = "/pages/user.html";
   });
 }
-
+/*
 const transferirDatos = async () => {
   let gastos = JSON.parse(localStorage.getItem("gastos"));
   let deudas = JSON.parse(localStorage.getItem("deudas"));
@@ -271,4 +301,4 @@ const transferirDatos = async () => {
       window.location.href = "/pages/user.html";
     });
   }
-}
+}*/
