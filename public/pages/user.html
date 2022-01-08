@@ -136,6 +136,13 @@
       </button>
       <button
         type="button"
+        class="btn btn-info w-100 py-3 mb-3"
+        id="btnModificarLimite"
+      >
+        Modificar limite
+      </button>
+      <button
+        type="button"
         class="btn btn-danger w-100 py-3 mb-3"
         data-bs-toggle="modal"
         data-bs-target="#modalReset"
@@ -230,7 +237,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="tituloModal2">Resetear cuenta</h5>
+            <h5 class="modal-title" id="tituloModal2">Nuevo Periodo</h5>
             <button
               type="button"
               class="btn-close"
@@ -240,7 +247,7 @@
           </div>
           <div class="modal-body">
             <p class="lead my-0">¿Esta seguro?</p>
-            <p class="textoImporte mb-2">Perdera todos sus datos</p>
+            <p class="textoImporte mb-2">Esta accion no se puede deshacer</p>
             <div class="text-end">
               <button
                 data-bs-dismiss="modal"
@@ -250,7 +257,7 @@
                 Cancelar
               </button>
               <button type="submit" class="btn btn-danger mt-2" id="reset">
-                Borrar
+                Iniciar
               </button>
             </div>
           </div>

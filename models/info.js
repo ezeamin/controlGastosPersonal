@@ -9,6 +9,7 @@ const infoSchema = new Schema({
   fecha: String,
   iniciales: [Number],
   pagosPendientes: Number,
+  limite: Number,
 });
 
 module.exports = mongoose.model('Info', infoSchema);

@@ -5,7 +5,7 @@ import {
   validarCamposNuevoIngreso,
 } from "./validaciones.js";
 import { Gasto } from "./gasto.js";
-import { loadInfo, actualizarInfo, cargarGasto, loadGastos, loadDeudas } from "./DB.js";
+import { loadInfo, actualizarInfo, cargarGasto, loadGastos, loadDeudas, transferOldData } from "./DB.js";
 
 let campoImporte = document.getElementById("importe");
 let campoCuenta = document.getElementById("cuenta");
@@ -17,6 +17,7 @@ let botonAñadir = document.getElementById("btnAgregarFondos");
 let botonTrasferirDatos = document.getElementById("btnTransferirDatos");
 
 let transferencia=false;
+let total, totalPropio, totalPapas, diferencia,efectivoPropio,efectivoPapas,TC,TCPropio,TD;
 let info = await loadInfo(false);
 cargarGastos().then(() => {
   document.getElementById("loadingSpinner").style.opacity = "0";
@@ -32,10 +33,8 @@ campoCuenta.addEventListener("blur", () => {
   campoRequeridoSelect(campoCuenta);
 });
 botonBorrar.addEventListener("click", () => {
-  /*localStorage.removeItem("info");
-  localStorage.removeItem("gastos");*/
-
-  location.href = "../index.html";
+  document.getElementById("reset").disabled = true;
+  iniciarNuevoPeriodo();
 });
 botonTransferencia.addEventListener("click", () => {
   transferencia=true;
@@ -121,11 +120,11 @@ function limpiarFormulario() {
 async function cargarGastos() {
   const gastos = await loadGastos(-1);
 
-  let efectivoPropio = 0;
-  let efectivoPapas = 0;
-  let TC = 0;
-  let TCPropio = 0;
-  let TD = 0;
+  efectivoPropio = 0;
+  efectivoPapas = 0;
+  TC = info.gastoTC;
+  TCPropio = 0;
+  TD = 0;
   let debo = 0;
   let aFavor = 0;
 
@@ -134,10 +133,7 @@ async function cargarGastos() {
       efectivoPropio += parseFloat(gasto.importe);
     else if (gasto.pago == "Efectivo" && gasto.origen == "Plata papas")
       efectivoPapas += parseFloat(gasto.importe);
-    else if (gasto.pago == "TC") {
-      TC += parseFloat(gasto.importe);
-      if(gasto.origen=="Plata propia") TCPropio += parseFloat(gasto.importe);
-    }
+    else if (gasto.pago == "TC" && gasto.origen=="Plata propia") TCPropio += parseFloat(gasto.importe);
     else if (gasto.pago == "TD" && gasto.categoria != "Fondeo") TD += parseFloat(gasto.importe);
 
     if(gasto.debo) debo+=parseFloat(gasto.importe);
@@ -158,9 +154,9 @@ async function cargarGastos() {
   document.getElementById("debes").innerHTML = "$" + debo;
   document.getElementById("aFavor").innerHTML = "$" + aFavor;
 
-  let total = efectivoPropio + efectivoPapas + TC + TD;
-  let totalPropio = efectivoPropio + TD + TCPropio;
-  let totalPapas = efectivoPapas + (TC - TCPropio);
+  total = efectivoPropio + efectivoPapas + TC + TD;
+  totalPropio = efectivoPropio + TD + TCPropio;
+  totalPapas = efectivoPapas + (TC - TCPropio);
 
   let totalPropioPorcentaje;
   let totalPapasPorcentaje;
@@ -181,7 +177,7 @@ async function cargarGastos() {
   let fechaInicial = info.fecha.split("/");
   let fechaFinal = new Date();
   let fechaFinalPeriodo = getFechaFinalPeriodo(fechaInicial);
-  let diferencia = Math.floor((fechaFinal.getTime() - new Date(fechaInicial[2], fechaInicial[1]-1, fechaInicial[0]).getTime()) / (1000 * 3600 * 24)) + 1 ;
+  diferencia = Math.floor((fechaFinal.getTime() - new Date(fechaInicial[2], fechaInicial[1]-1, fechaInicial[0]).getTime()) / (1000 * 3600 * 24)) + 1 ;
   let diasRestantes = Math.floor((fechaFinalPeriodo.getTime() - fechaFinal.getTime()) / (1000 * 3600 * 24)) + 1 ;
 
   if(diasRestantes!=1) document.getElementById("diasRestantes").innerHTML = diasRestantes + " días";
@@ -272,7 +268,20 @@ async function cargarTransferencia(){
     window.location.href = "/pages/user.html";
   });
 }
-/*
+
+async function iniciarNuevoPeriodo(){
+  await transferOldData(total,totalPropio,totalPapas,diferencia,efectivoPropio,efectivoPapas,TC,TCPropio,TD);
+  Swal.fire({
+    title: "Nuevo periodo",
+    text: "Felicidades, sobreviviste un nuevo mes",
+    timer: 2500,
+    showCancelButton: false,
+    showConfirmButton: false,
+  }).then(() => {
+    window.location.href = "/index.html";
+  });
+}
+
 const transferirDatos = async () => {
   let gastos = JSON.parse(localStorage.getItem("gastos"));
   let deudas = JSON.parse(localStorage.getItem("deudas"));
@@ -301,4 +310,4 @@ const transferirDatos = async () => {
       window.location.href = "/pages/user.html";
     });
   }
-}*/
+}

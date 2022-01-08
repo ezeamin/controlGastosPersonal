@@ -76,6 +76,7 @@ export function validarCamposNuevoUsuario() {
   if (!campoRequerido(campos[0])) error = true;
   if (!campoRequerido(campos[1]) || !validarNumeros(campos[1])) error = true;
   if (!campoRequerido(campos[2]) || !validarNumeros(campos[2])) error = true;
+  if (!campoRequerido(campos[3]) || !validarNumeros(campos[3])) error = true;
 
   if (error) {
     return false;

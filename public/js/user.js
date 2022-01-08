@@ -1,5 +1,5 @@
 export class User{
-    constructor(nombre, saldoEfectivo, saldoTD){
+    constructor(nombre, saldoEfectivo, saldoTD,limite){
         this.nombre = nombre;
         this.saldoEfectivo = parseFloat(saldoEfectivo);
         this.saldoTD = parseFloat(saldoTD);
@@ -7,6 +7,7 @@ export class User{
         this.fecha = this.getDate();
         this.iniciales = [parseFloat(saldoEfectivo), parseFloat(saldoTD)];
         this.pagosPendientes = 0;
+        this.limite = parseFloat(limite);
     }
 
     get getNombre(){

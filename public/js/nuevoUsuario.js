@@ -9,6 +9,7 @@ import { cargarInfo } from "./DB.js";
 let campoNombre = document.getElementById("nombre");
 let campoSaldoEfectivo = document.getElementById("saldoEfectivo");
 let campoSaldoTD = document.getElementById("saldoTD");
+let campoLimite = document.getElementById("limite");
 let formulario = document.getElementById("nuevoUsuario");
 
 campoNombre.addEventListener("blur", () => {
@@ -19,6 +20,10 @@ campoSaldoEfectivo.addEventListener("blur", () => {
   validarNumeros(campoSaldoEfectivo);
 });
 campoSaldoTD.addEventListener("blur", () => {
+  campoRequerido(campoSaldoTD);
+  validarNumeros(campoSaldoTD);
+});
+campoLimite.addEventListener("blur", () => {
   campoRequerido(campoSaldoTD);
   validarNumeros(campoSaldoTD);
 });
@@ -35,7 +40,8 @@ function guardar() {
   let nuevoUsuario = new User(
     capitalizeFirstLetter(campoNombre.value),
     campoSaldoEfectivo.value,
-    campoSaldoTD.value
+    campoSaldoTD.value,
+    campoLimite.value,
   );
 
   cargarInfo(nuevoUsuario);

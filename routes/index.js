@@ -7,6 +7,7 @@ const DbInfo = require("../models/info");
 const DbGastos = require("../models/gastos");
 const DbDeudas = require("../models/deudas");
 const DbPagos = require("../models/pagos");
+const DbOld = require("../models/old");
 
 router.post("/transfer", (req, res) => {
   console.log(req.body);
@@ -61,11 +62,13 @@ router.get("/gastos/:min", async (req, res) => {
   let gastos;
   if (min == -1) {
     gastos = await DbGastos.find({}, "pago origen importe categoria");
-  } else if(min == -2){
+  } else if (min == -2) {
     gastos = await DbGastos.find({}).sort({ mongoDate: -1 });
-  } 
-  else
-    gastos = await DbGastos.find({}).sort({ mongoDate: -1 }).skip(min).limit(10);
+  } else
+    gastos = await DbGastos.find({})
+      .sort({ mongoDate: -1 })
+      .skip(min)
+      .limit(10);
 
   res.status(200).json(gastos);
 });
@@ -108,7 +111,7 @@ router.put("/deudasC/:codigo", async (req, res) => {
 
 router.delete("/deudas", async (req, res) => {
   let deudor = req.body;
-  
+
   await DbDeudas.deleteOne({ codigoDeudor: deudor.codigoDeudor });
 
   res.status(200).json({ code: 200 });
@@ -185,6 +188,67 @@ router.delete("/pagos/:cod", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/transferOldData", async (req, res) => {
+  const body = req.body;
+  const gastos = await DbGastos.find({}).sort({ mongoDate: -1 });
+  const info = await DbInfo.findOne({});
+
+  let date = new Date()
+
+  let day = date.getDate()
+  let month = date.getMonth() + 1
+  let year = date.getFullYear()
+
+  if(day < 10) day = "0" + day;
+  if(month < 10) month = "0" + month;
+  date=`${day}/${month}/${year}`;
+
+  let Schema = {
+    fechaInicio: info.fecha,
+    fechaFin: date,
+    dias: body.dias,
+    stats: {
+      total: body.total,
+      gastos: {
+        efectivoPropio: body.efectivoPropio,
+        efectivoPapas: body.efectivoPapas,
+        TC: info.gastoTC,
+        TCPropio: body.TCPropio,
+        TD: body.TD,
+      },
+      promedioDiario: Math.round(body.total / body.dias),
+      promedioDiarioPropio: Math.round(body.totalPropio / body.dias),
+      porcentajePropio: Math.round((body.totalPropio / body.total) * 100),
+      porcentajePapas: Math.round((body.totalPapas / body.total) * 100),
+      iniciales: {
+        saldoEfectivo: info.iniciales[0],
+        saldoTD: info.iniciales[1],
+      },
+      finales: {
+        saldoEfectivo: info.saldoEfectivo,
+        saldoTD: info.saldoTD,
+      },
+    },
+    gastos: [],
+  };
+
+  gastos.forEach((gasto) => {
+    Schema.gastos.push(gasto);
+  });
+
+  await DbOld.create(Schema);
+
+  await DbGastos.collection.drop();
+
+  info.iniciales[0] = info.saldoEfectivo;
+  info.iniciales[1] = info.saldoTD;
+  info.fecha = date;
+  info.gastoTC = 0;
+
+  await info.save();
+  res.sendStatus(200);
+});
+
 //
 
 router.get("*", (req, res) => {
@@ -194,7 +258,18 @@ router.get("*", (req, res) => {
 //
 
 class Gasto {
-  constructor(concepto,categoria,importe,origen,pago,comentario,codigo,fecha,debo,mongoDate) {
+  constructor(
+    concepto,
+    categoria,
+    importe,
+    origen,
+    pago,
+    comentario,
+    codigo,
+    fecha,
+    debo,
+    mongoDate
+  ) {
     this.concepto = concepto;
     this.categoria = categoria;
     this.importe = importe;
@@ -218,12 +293,19 @@ const transferir = (datos) => {
 
   gastos.forEach((gasto) => {
     let timeSplit = gasto.fecha.split("-");
-    timeSplit[0]=timeSplit[0].trim();
-    timeSplit[1]=timeSplit[1].trimStart();
+    timeSplit[0] = timeSplit[0].trim();
+    timeSplit[1] = timeSplit[1].trimStart();
     let date = timeSplit[0].split("/");
     let time = timeSplit[1].split(":");
-    let mongoDate = new Date(date[2], date[1], date[0], time[0], time[1], time[2]);
-    
+    let mongoDate = new Date(
+      date[2],
+      date[1],
+      date[0],
+      time[0],
+      time[1],
+      time[2]
+    );
+
     newGasto = new Gasto(
       gasto.concepto,
       gasto.categoria,
@@ -235,16 +317,16 @@ const transferir = (datos) => {
       gasto.fecha,
       gasto.debo,
       mongoDate
-    )
+    );
 
     DbGastos.create(newGasto);
   });
 
-  deudas.forEach(deuda => {
+  deudas.forEach((deuda) => {
     DbDeudas.create(deuda);
   });
 
-  pagos.forEach(pago => {
+  pagos.forEach((pago) => {
     DbPagos.create(pago);
   });
 };
