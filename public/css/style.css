@@ -1,0 +1,116 @@
+#comentario {
+  resize: none;
+}
+
+header{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 200;
+}
+
+main{
+  padding-top: 56px;
+}
+
+.textoImporte {
+  color: gray;
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+#atencionTC {
+  display: none;
+}
+
+.colTablaColor {
+  width: 5px;
+}
+
+#loadingSpinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: white;
+  height: calc(100vh - 56px);
+  width: 100%;
+  z-index: 100;
+}
+
+#loadingScreen {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.247);
+  height: 100vh;
+  width: 100%;
+  z-index: 100;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: #6c757d;
+
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+  0% {
+    -webkit-transform: perspective(120px);
+    background-color: #eb5b5b;
+  }
+  50% {
+    -webkit-transform: perspective(120px) rotateY(180deg);
+    background-color: #398ed8;
+  }
+  100% {
+    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+    background-color: #eb5b5b;
+  }
+}
+
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    background-color: #eb5b5b;
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    background-color: #398ed8;
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    background-color: #eb5b5b;
+  }
+}
+
+.loadingText:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 1500ms infinite;
+  animation: ellipsis steps(4, end) 1500ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+}
