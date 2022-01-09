@@ -266,6 +266,10 @@ function crearFila(gasto) {
       cat.style.backgroundColor = "#fdfd96";
       break;
     }
+    case "Salud": {
+      cat.style.backgroundColor = "#9ad2e6";
+      break;
+    }
   }
 }
 

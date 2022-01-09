@@ -12,6 +12,7 @@ import {
   loadGastos,
   loadDeudas,
   transferOldData,
+  loadOld,
 } from "./DB.js";
 
 let campoImporte = document.getElementById("importe");
@@ -201,6 +202,7 @@ async function cargarGastos() {
 
   document.getElementById("totalGastos").innerHTML = "$" + total;
   document.getElementById("totalGastos2").innerHTML = "$" + total;
+  document.getElementById("totalGrafico").innerHTML = "$" + total;
   if (total != 0)
     document.getElementById("porcentajes").innerHTML =
       totalPropioPorcentaje + "% / " + totalPapasPorcentaje + "%";
@@ -214,20 +216,42 @@ async function cargarGastos() {
   let fechaFinal = new Date();
   let fechaFinalPeriodo = getFechaFinalPeriodo(fechaInicial);
   let fechaFinalPeriodoFormat;
-  if(fechaFinalPeriodo.getDate() < 10){
-    if(fechaFinalPeriodo.getMonth() < 10){
-      fechaFinalPeriodoFormat = "0" + fechaFinalPeriodo.getDate() + "/0" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
-    }else{
-      fechaFinalPeriodoFormat = "0" + fechaFinalPeriodo.getDate() + "/" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
+  if (fechaFinalPeriodo.getDate() < 10) {
+    if (fechaFinalPeriodo.getMonth() < 10) {
+      fechaFinalPeriodoFormat =
+        "0" +
+        fechaFinalPeriodo.getDate() +
+        "/0" +
+        (parseInt(fechaFinalPeriodo.getMonth()) + 1) +
+        "/" +
+        fechaFinalPeriodo.getFullYear();
+    } else {
+      fechaFinalPeriodoFormat =
+        "0" +
+        fechaFinalPeriodo.getDate() +
+        "/" +
+        (parseInt(fechaFinalPeriodo.getMonth()) + 1) +
+        "/" +
+        fechaFinalPeriodo.getFullYear();
     }
-  }else{
-    if(fechaFinalPeriodo.getMonth() < 10){
-      fechaFinalPeriodoFormat = fechaFinalPeriodo.getDate() + "/0" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
-    }else{
-      fechaFinalPeriodoFormat = fechaFinalPeriodo.getDate() + "/" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
+  } else {
+    if (fechaFinalPeriodo.getMonth() < 10) {
+      fechaFinalPeriodoFormat =
+        fechaFinalPeriodo.getDate() +
+        "/0" +
+        (parseInt(fechaFinalPeriodo.getMonth()) + 1) +
+        "/" +
+        fechaFinalPeriodo.getFullYear();
+    } else {
+      fechaFinalPeriodoFormat =
+        fechaFinalPeriodo.getDate() +
+        "/" +
+        (parseInt(fechaFinalPeriodo.getMonth()) + 1) +
+        "/" +
+        fechaFinalPeriodo.getFullYear();
     }
   }
-  
+
   diferencia =
     Math.floor(
       (fechaFinal.getTime() -
@@ -247,16 +271,12 @@ async function cargarGastos() {
     document.getElementById("diasRestantes").innerHTML =
       "Quedan " + diasRestantes + " días";
   else
-    document.getElementById("diasRestantes").innerHTML = "Queda " + diasRestantes + " día";
+    document.getElementById("diasRestantes").innerHTML =
+      "Queda " + diasRestantes + " día";
 
-  if (diasRestantes <= 3) document.getElementById("diasRestantesCont").className = "mb-0 text-danger fw-bold"
-
-  /*fechaFinal =
-    fechaFinal.getDate() +
-    "/" +
-    (fechaFinal.getMonth() + 1) +
-    "/" +
-    fechaFinal.getFullYear();*/
+  if (diasRestantes <= 3)
+    document.getElementById("diasRestantesCont").className =
+      "mb-0 text-danger fw-bold";
 
   txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinalPeriodoFormat;
   document.getElementById("dias").innerHTML = diferencia;
@@ -281,6 +301,8 @@ async function cargarGastos() {
       await iniciarNuevoPeriodo();
     });
   }
+
+  generarGraficos(gastos);
 
   return total;
 }
@@ -328,6 +350,147 @@ function getFechaFinalPeriodo(fechaInicial) {
     );
 
   return fechaFinal;
+}
+
+function getInfo1(gastos) {
+  let nombres = [
+    "Comida/Merienda",
+    "Super/Kiosko/Bebida",
+    "Transporte",
+    "Entretenimiento",
+    "Salida Nocturna",
+    "Gimnasia",
+    "Auto/Nafta",
+    "Estudios",
+    "Salud",
+    "Varios",
+  ];
+
+  let categorias = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  gastos.forEach((gasto) => {
+    if (gasto.categoria == "Comida/Merienda") categorias[0] += gasto.importe;
+    else if (gasto.categoria == "Super/Kiosko/Bebida")
+      categorias[1] += gasto.importe;
+    else if (gasto.categoria == "Transporte") categorias[2] += gasto.importe;
+    else if (gasto.categoria == "Entretenimiento")
+      categorias[3] += gasto.importe;
+    else if (gasto.categoria == "Salida Nocturna")
+      categorias[4] += gasto.importe;
+    else if (gasto.categoria == "Gimnasia") categorias[5] += gasto.importe;
+    else if (gasto.categoria == "Auto/Nafta") categorias[6] += gasto.importe;
+    else if (gasto.categoria == "Estudios") categorias[7] += gasto.importe;
+    else if (gasto.categoria == "Salud") categorias[8] += gasto.importe;
+    else categorias[9] += gasto.importe;
+  });
+
+  let colores = [
+    "#fff87f",
+    "#4fa8fb",
+    "#f86f6f",
+    "#ff35c2",
+    "#66d7d1",
+    "#afcbff",
+    "#ffcbc1",
+    "#aff8db",
+    "#9ad2e6",
+    "#b5c5d7",
+  ];
+
+  return [nombres, categorias, colores];
+}
+
+async function getInfo2() {
+  let anteriores = await loadOld();
+
+  let totalAnteriores = anteriores.map((periodo) => {
+    return periodo.stats.total;
+  });
+  totalAnteriores.push(total);
+  let totalAnterioresPropio = anteriores.map((periodo) => {
+    return (
+      periodo.stats.gastos.TCPropio +
+      periodo.stats.gastos.TD +
+      periodo.stats.gastos.efectivoPropio
+    );
+  });
+  totalAnterioresPropio.push(totalPropio);
+
+  //console.log(totalAnteriores, totalAnterioresPropio);
+
+  let mesActual = new Date().getMonth();
+
+  //meses hasta hoy
+  let meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
+  let mesesHastaHoy = [];
+  for (let i = 0; i < mesActual+1; i++) {
+    mesesHastaHoy.push(meses[i]);
+  }
+
+  return [mesesHastaHoy, totalAnteriores, totalAnterioresPropio];
+}
+
+async function generarGraficos(gastos) {
+  gastos = gastos.filter((gasto) => {
+    return gasto.categoria != "Fondeo" && gasto.categoria != "Pago de deuda";
+  });
+
+  const info1 = getInfo1(gastos);
+  const info2 = await getInfo2(gastos);
+
+  const ctx = document.getElementById("graficoDonut").getContext("2d");
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: info1[0],
+      datasets: [
+        {
+          data: info1[1],
+          backgroundColor: info1[2],
+        },
+      ],
+    },
+    options: {
+      resonsive: true,
+    },
+  });
+
+  const ctx2 = document.getElementById("graficoHistoria").getContext("2d");
+  new Chart(ctx2, {
+    type: "line",
+    data: {
+      labels: info2[0],
+      datasets: [
+        {
+          label: "Total",
+          data: info2[1],
+          backgroundColor: "#4fa8fb",
+        },
+        {
+          label: "Total propio",
+          data: info2[2],
+          backgroundColor: "#f86f6f",
+        },
+      ],
+    },
+    options: {
+      resonsive: true,
+    },
+  });
 }
 
 async function cargarTransferencia() {
