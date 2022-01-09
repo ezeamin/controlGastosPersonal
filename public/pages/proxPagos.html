@@ -25,8 +25,7 @@
             href="user.html"
             class="m-0 text-light lead text-decoration-none"
             id="user"
-            ></a
-          >
+          ></a>
         </div>
       </nav>
     </header>
@@ -37,25 +36,39 @@
     <main class="container my-5">
       <h1 class="display-1 text-center">Proximos pagos</h1>
       <hr class="m-0" />
-      <div class="text-center my-2">
-          <p class="lead">Total: <span id="totalPagos"></span><span id="fechaPago"></span></p>
+      <div id="datosVacios">
+        <p class="lead mb-1">No hay pagos pendientes</p>
+        <p class="lead mb-0">¡Felicidades!</p>
       </div>
-      <button data-bs-toggle="modal"
-      data-bs-target="#modalAgregarPago" class="btn btn-success w-100 py-2 mb-2" id="agregarPago">Agregar pago</button>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Concepto</th>
-              <th>Fecha registro</th>
-              <th>Fecha vencimiento</th>
-              <th>Importe</th>
-              <th>Comentario</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tablaPagos"></tbody>
-        </table>
+      <div id="tabla">
+        <div class="text-center my-2">
+          <p class="lead">
+            Total: <span id="totalPagos"></span><span id="fechaPago"></span>
+          </p>
+        </div>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#modalAgregarPago"
+          class="btn btn-success w-100 py-2 mb-2"
+          id="agregarPago"
+        >
+          Agregar pago
+        </button>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Concepto</th>
+                <th>Fecha registro</th>
+                <th>Fecha vencimiento</th>
+                <th>Importe</th>
+                <th>Comentario</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaPagos"></tbody>
+          </table>
+        </div>
       </div>
     </main>
     <script
@@ -91,7 +104,9 @@
                   <option value="Efectivo">Cuenta Efectivo</option>
                   <option value="TD">Cuenta TD</option>
                 </select>
-                <div class="invalid-feedback" id="errorSelect">Seleccione una opcion</div>
+                <div class="invalid-feedback" id="errorSelect">
+                  Seleccione una opcion
+                </div>
               </div>
               <div class="form-group my-2">
                 <label for="comentarioPagar">Comentario</label>
@@ -99,7 +114,7 @@
                   class="form-control"
                   id="comentarioPagar"
                   rows="2"
-                  style="resize: none;"
+                  style="resize: none"
                 ></textarea>
               </div>
               <div class="text-end">
@@ -160,7 +175,9 @@
                   id="fecha"
                   placeholder="dd/mm/aaaa"
                 />
-                <div class="invalid-feedback" id="fechaIncorrecta">Ingrese parametros validos</div>
+                <div class="invalid-feedback" id="fechaIncorrecta">
+                  Ingrese parametros validos
+                </div>
               </div>
               <div class="form-group my-2">
                 <label for="comentario">Comentario</label>

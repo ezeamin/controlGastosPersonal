@@ -21,8 +21,14 @@ import {
 let info = await loadInfo(false);
 let deudas;
 loadDeudas(false).then((deudasC) => {
-  deudas = deudasC;
-  cargarTabla();
+  deudasC = []
+  if(deudasC.length > 0) {
+    document.getElementById("datosVaciosDeudas").style.display = "none";
+    deudas = deudasC;
+    cargarTabla();
+  }
+  else document.getElementById("tabla").style.display = "none";
+
   document.getElementById("loadingSpinner").style.opacity = "0";
   setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });

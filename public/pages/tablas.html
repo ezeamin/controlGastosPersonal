@@ -25,98 +25,104 @@
             href="user.html"
             class="m-0 text-light lead text-decoration-none"
             id="user"
-            ></a
-          >
+          ></a>
         </div>
       </nav>
     </header>
     <div id="loadingSpinner">
       <div class="spinner"></div>
       <div class="text-center">
-        <p class="lead mt-5 loadingText px-3">Mira, no puedo terminar de cargar de lo tanto que gastas hdp</p>
+        <p class="lead mt-5 loadingText px-3">
+          Mira, no puedo terminar de cargar de lo tanto que gastas hdp
+        </p>
       </div>
     </div>
     <div id="loadingScreen"></div>
     <main class="container my-5">
       <h1 class="display-1 text-center">Gastos</h1>
       <hr class="m-0" />
-      <form action="">
-        <div class="row my-2">
-          <div class="col-5 d-flex align-items-center">
-            <label for="filtroCategoria" class="">Filtrar categoria</label>
+      <div id="tabla">
+        <form action="">
+          <div class="row my-2">
+            <div class="col-5 d-flex align-items-center">
+              <label for="filtroCategoria" class="">Filtrar categoria</label>
+            </div>
+            <div class="form-group col-7">
+              <select id="filtroCategoria" class="form-select">
+                <option value="0">Sin filtro</option>
+                <option value="Comida/Merienda">Comida/Merienda</option>
+                <option value="Super/Kiosko/Bebida">Super/Kiosko/Bebida</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Entretenimiento">Entretenimiento</option>
+                <option value="Salida nocturna">Salida nocturna</option>
+                <option value="Gimnasia">Gimnasia</option>
+                <option value="Auto/Nafta">Auto/Nafta</option>
+                <option value="Estudios">Estudios</option>
+                <option value="Fondeo">Fondeo</option>
+                <option value="Pago de deuda">Pago de deuda</option>
+                <option value="Varios">Varios</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group col-7">
-            <select id="filtroCategoria" class="form-select">
-              <option value="0">Sin filtro</option>
-              <option value="Comida/Merienda">Comida/Merienda</option>
-              <option value="Super/Kiosko/Bebida">Super/Kiosko/Bebida</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Entretenimiento">Entretenimiento</option>
-              <option value="Salida nocturna">Salida nocturna</option>
-              <option value="Gimnasia">Gimnasia</option>
-              <option value="Auto/Nafta">Auto/Nafta</option>
-              <option value="Estudios">Estudios</option>
-              <option value="Fondeo">Fondeo</option>
-              <option value="Pago de deuda">Pago de deuda</option>
-              <option value="Varios">Varios</option>
-            </select>
+          <div class="row my-2">
+            <div class="col-5 d-flex align-items-center">
+              <label for="filtroPago" class="">Filtrar pago</label>
+            </div>
+            <div class="form-group col-7">
+              <select id="filtroPago" class="form-select">
+                <option value="0">Sin filtro</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="TC">TC</option>
+                <option value="TD">TD</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
           </div>
+          <div class="row my-2">
+            <div class="col-5 d-flex align-items-center">
+              <label for="filtroOrigen" class="">Filtrar origen</label>
+            </div>
+            <div class="form-group col-7">
+              <select id="filtroOrigen" class="form-select">
+                <option value="0">Sin filtro</option>
+                <option value="Plata propia">Plata propia</option>
+                <option value="Plata papas">Plata papas</option>
+                <option value="Plata ajena">Plata ajena</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <td class="colTablaColor"></td>
+                <th scope="col">Categoria</th>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Origen</th>
+                <th>Pago</th>
+                <th>Comentario</th>
+                <th>Debo</th>
+                <th>Importe</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaGastos"></tbody>
+          </table>
         </div>
-        <div class="row my-2">
-          <div class="col-5 d-flex align-items-center">
-            <label for="filtroPago" class="">Filtrar pago</label>
-          </div>
-          <div class="form-group col-7">
-            <select id="filtroPago" class="form-select">
-              <option value="0">Sin filtro</option>
-              <option value="Efectivo">Efectivo</option>
-              <option value="TC">TC</option>
-              <option value="TD">TD</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
+        <div class="d-flex justify-content-center">
+          <button
+            class="btn btn-outline-danger my-2"
+            type="button"
+            id="cargarMas"
+          >
+            Cargar mas
+          </button>
         </div>
-        <div class="row my-2">
-          <div class="col-5 d-flex align-items-center">
-            <label for="filtroOrigen" class="">Filtrar origen</label>
-          </div>
-          <div class="form-group col-7">
-            <select id="filtroOrigen" class="form-select">
-              <option value="0">Sin filtro</option>
-              <option value="Plata propia">Plata propia</option>
-              <option value="Plata papas">Plata papas</option>
-              <option value="Plata ajena">Plata ajena</option>
-            </select>
-          </div>
-        </div>
-      </form>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <td class="colTablaColor"></td>
-              <th scope="col">Categoria</th>
-              <th>Fecha</th>
-              <th>Concepto</th>
-              <th>Origen</th>
-              <th>Pago</th>
-              <th>Comentario</th>
-              <th>Debo</th>
-              <th>Importe</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tablaGastos"></tbody>
-        </table>
       </div>
-      <div class="d-flex justify-content-center">
-        <button
-          class="btn btn-outline-danger my-2"
-          type="button"
-          id="cargarMas"
-        >
-          Cargar mas
-        </button>
+      <div class="datosVacios">
+        <p id="nullGastos" class="lead">No hay gastos</p>
       </div>
     </main>
     <script

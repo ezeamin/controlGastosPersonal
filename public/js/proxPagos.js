@@ -27,8 +27,12 @@ let formulario2 = document.getElementById("formularioPagarPago");
 let info = await loadInfo(false);
 let pagos;
 loadPagos().then(pagosC=>{
-  pagos = pagosC;
-  cargarDatosTabla();
+  if(pagosC.length>0){
+    document.getElementById("datosVacios").style.display = "none";
+    pagos = pagosC;
+    cargarDatosTabla();
+  } else document.getElementById("tabla").style.display = "none"; 
+
   document.getElementById("loadingSpinner").style.opacity = "0";
   setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
 });

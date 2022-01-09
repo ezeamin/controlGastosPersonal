@@ -121,3 +121,36 @@ main{
 #progressBar{
   transition: all 0.5s ease-out;
 }
+
+.btn-personalizado{
+  background-color: #e683e6;
+}
+
+#datosVacios{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 56px);
+  position: absolute;
+  top: 56px;
+  left: 0;
+  width: 100%;
+}
+
+#datosVaciosDeudas{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 250px);
+  padding-bottom: 150px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.agregarDeudor{
+  z-index: 200;
+}

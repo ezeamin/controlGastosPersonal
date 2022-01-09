@@ -131,6 +131,13 @@ function limpiarTabla() {
 
 async function cargarGastos() {
   const length = await loadGastosLength(max - 10);
+
+  if(length == 0 && max==10){
+    document.getElementById("tabla").style.display = "none";
+    return;
+  }
+  else document.getElementById("datosVacios").style.display = "none";
+
   if (length != 0) {
     let gastos = await loadGastos(max - 10);
     if (length > 10) btnCargarMas.style.display = "block";

@@ -25,8 +25,7 @@
             href="user.html"
             class="m-0 text-light lead text-decoration-none"
             id="user"
-            ></a
-          >
+          ></a>
         </div>
       </nav>
     </header>
@@ -37,24 +36,35 @@
     <main class="container my-5">
       <h1 class="display-1 text-center">Deudores</h1>
       <hr class="m-0" />
-      <button data-bs-toggle="modal"
-      data-bs-target="#modalAgregarDeuda" class="btn btn-primary w-100 py-2 my-2" id="agregarDeudor">Agregar deudor</button>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <td class="colTablaColor"></td>
-              <th scope="col">Nombre</th>
-              <th>Fecha</th>
-              <th>Importe</th>
-              <th>Origen</th>
-              <th>Comentario</th>
-              <th>Importe total</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tablaDeudas"></tbody>
-        </table>
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#modalAgregarDeuda"
+        class="btn btn-primary w-100 py-2 my-2 position-relative"
+        id="agregarDeudor"
+      >
+        Agregar deudor
+      </button>
+      <div id="datosVaciosDeudas">
+        <p class="lead">Lamentablemente, no hay deudas</p>
+      </div>
+      <div id="tabla">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <td class="colTablaColor"></td>
+                <th scope="col">Nombre</th>
+                <th>Fecha</th>
+                <th>Importe</th>
+                <th>Origen</th>
+                <th>Comentario</th>
+                <th>Importe total</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaDeudas"></tbody>
+          </table>
+        </div>
       </div>
     </main>
     <script
@@ -89,7 +99,9 @@
                   <option value="Efectivo">Cuenta Efectivo</option>
                   <option value="TD">Cuenta TD</option>
                 </select>
-                <div class="invalid-feedback" id="errorSelect">Seleccione una opcion</div>
+                <div class="invalid-feedback" id="errorSelect">
+                  Seleccione una opcion
+                </div>
               </div>
               <div class="form-check my-3">
                 <label class="form-check-label" for="ignorar">
@@ -108,7 +120,7 @@
                   class="form-control"
                   id="comentarioCancelar"
                   rows="2"
-                  style="resize: none;"
+                  style="resize: none"
                 ></textarea>
               </div>
               <div class="text-end">
@@ -149,7 +161,9 @@
                   id="nombre"
                   placeholder="Nombre"
                 />
-                <div class="invalid-feedback" id="error">Ingrese parametros validos</div>
+                <div class="invalid-feedback" id="error">
+                  Ingrese parametros validos
+                </div>
               </div>
               <div class="form-group my-2">
                 <label for="origenDeuda">Importe</label>
@@ -159,10 +173,14 @@
                   id="importe"
                   placeholder="Importe"
                 />
-                <div class="invalid-feedback" id="error">Ingrese parametros validos</div>
+                <div class="invalid-feedback" id="error">
+                  Ingrese parametros validos
+                </div>
               </div>
               <div class="form-group my-2">
-                <label for="origen">Origen<span class="text-danger">*</span></label>
+                <label for="origen"
+                  >Origen<span class="text-danger">*</span></label
+                >
                 <select class="form-select modal2" id="origen">
                   <option value="0">Seleccione</option>
                   <option value="Plata propia">Plata propia</option>
@@ -178,7 +196,9 @@
                   <option value="TD">Cuenta TD</option>
                   <option value="None">No extraer</option>
                 </select>
-                <div class="invalid-feedback" id="errorSelect">Seleccione una opcion</div>
+                <div class="invalid-feedback" id="errorSelect">
+                  Seleccione una opcion
+                </div>
               </div>
               <div class="form-group my-2">
                 <label for="comentario">Comentario</label>
@@ -188,7 +208,9 @@
                   rows="3"
                   placeholder="Presto desde mi plata, TC, etc"
                 ></textarea>
-                <div class="invalid-feedback" id="error">Ingrese un comentario</div>
+                <div class="invalid-feedback" id="error">
+                  Ingrese un comentario
+                </div>
               </div>
               <div class="text-end">
                 <button type="submit" class="btn btn-primary mt-2">

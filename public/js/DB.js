@@ -240,3 +240,18 @@ export async function transferOldData(total,totalPropio,totalPapas,dias,efectivo
     body: JSON.stringify({total,totalPropio,totalPapas,dias,efectivoPropio,efectivoPapas,TC,TCPropio,TD}),
   });
 }
+
+export async function loadOld() {
+  const res = await fetch(`/old`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const periodos = await res.json();
+
+  if (periodos == null) return [];
+
+  return periodos;
+}
+

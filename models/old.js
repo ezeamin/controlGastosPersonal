@@ -14,8 +14,14 @@ const statsSchema = new Schema({
   promedioDiarioPropio: Number,
   porcentajePropio: Number,
   porcentajePapas: Number,
-  iniciales: {Number, Number},
-  finales: {Number, Number},
+  iniciales: {
+    efectivo: Number,
+    TD: Number,
+  },
+  finales: {
+    efectivo: Number,
+    TD: Number,
+  },
 });
 
 const gastosSchema = new Schema({

@@ -221,12 +221,12 @@ router.post("/transferOldData", async (req, res) => {
       porcentajePropio: Math.round((body.totalPropio / body.total) * 100),
       porcentajePapas: Math.round((body.totalPapas / body.total) * 100),
       iniciales: {
-        saldoEfectivo: info.iniciales[0],
-        saldoTD: info.iniciales[1],
+        efectivo: info.iniciales[0],
+        TD: info.iniciales[1],
       },
       finales: {
-        saldoEfectivo: info.saldoEfectivo,
-        saldoTD: info.saldoTD,
+        efectivo: info.saldoEfectivo,
+        TD: info.saldoTD,
       },
     },
     gastos: [],
@@ -247,6 +247,12 @@ router.post("/transferOldData", async (req, res) => {
 
   await info.save();
   res.sendStatus(200);
+});
+
+router.get("/old", async (req, res) => {
+  const old = await DbOld.find({});
+
+  res.status(200).json(old);
 });
 
 //
