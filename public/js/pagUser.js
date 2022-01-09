@@ -38,7 +38,9 @@ let total,
   TC,
   TCPropio,
   TD;
+
 let info = await loadInfo(false);
+let anteriores = await loadOld();
 cargarGastos().then(() => {
   progressBar.style.width = "0%";
   document.getElementById("loadingSpinner").style.opacity = "0";
@@ -401,8 +403,6 @@ function getInfo1(gastos) {
 }
 
 async function getInfo2() {
-  let anteriores = await loadOld();
-
   let totalAnteriores = anteriores.map((periodo) => {
     return periodo.stats.total;
   });
@@ -437,7 +437,7 @@ async function getInfo2() {
   ];
 
   let mesesHastaHoy = [];
-  for (let i = 0; i < mesActual+1; i++) {
+  for (let i = 0; i < mesActual + 1; i++) {
     mesesHastaHoy.push(meses[i]);
   }
 
@@ -489,6 +489,12 @@ async function generarGraficos(gastos) {
     },
     options: {
       resonsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          min: 0,
+        },
+      },
     },
   });
 }
