@@ -305,7 +305,7 @@ const transferir = (datos) => {
     let time = timeSplit[1].split(":");
     let mongoDate = new Date(
       date[2],
-      date[1],
+      date[1]-1,
       date[0],
       time[0],
       time[1],

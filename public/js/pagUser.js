@@ -213,6 +213,21 @@ async function cargarGastos() {
   let fechaInicial = info.fecha.split("/");
   let fechaFinal = new Date();
   let fechaFinalPeriodo = getFechaFinalPeriodo(fechaInicial);
+  let fechaFinalPeriodoFormat;
+  if(fechaFinalPeriodo.getDate() < 10){
+    if(fechaFinalPeriodo.getMonth() < 10){
+      fechaFinalPeriodoFormat = "0" + fechaFinalPeriodo.getDate() + "/0" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
+    }else{
+      fechaFinalPeriodoFormat = "0" + fechaFinalPeriodo.getDate() + "/" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
+    }
+  }else{
+    if(fechaFinalPeriodo.getMonth() < 10){
+      fechaFinalPeriodoFormat = fechaFinalPeriodo.getDate() + "/0" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
+    }else{
+      fechaFinalPeriodoFormat = fechaFinalPeriodo.getDate() + "/" + (parseInt(fechaFinalPeriodo.getMonth())+1) + "/" + fechaFinalPeriodo.getFullYear();
+    }
+  }
+  
   diferencia =
     Math.floor(
       (fechaFinal.getTime() -
@@ -236,14 +251,14 @@ async function cargarGastos() {
 
   if (diasRestantes <= 3) document.getElementById("diasRestantesCont").className = "mb-0 text-danger fw-bold"
 
-  fechaFinal =
+  /*fechaFinal =
     fechaFinal.getDate() +
     "/" +
     (fechaFinal.getMonth() + 1) +
     "/" +
-    fechaFinal.getFullYear();
+    fechaFinal.getFullYear();*/
 
-  txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinal;
+  txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinalPeriodoFormat;
   document.getElementById("dias").innerHTML = diferencia;
 
   let promedio = Math.round(total / diferencia);
@@ -302,14 +317,14 @@ function getFechaFinalPeriodo(fechaInicial) {
   if (fechaInicial[1] != 12)
     fechaFinal = new Date(
       fechaInicial[2],
-      fechaInicial[1] - 1,
-      parseInt(fechaInicial[0]) - 1
+      fechaInicial[1],
+      parseInt(fechaInicial[0])
     );
   else
     fechaFinal = new Date(
       parseInt(fechaInicial[2]) + 1,
       0,
-      parseInt(fechaInicial[0]) - 1
+      parseInt(fechaInicial[0])
     );
 
   return fechaFinal;
