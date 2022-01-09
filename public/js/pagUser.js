@@ -292,6 +292,55 @@ async function cargarGastos() {
   document.getElementById("limiteEstado").innerHTML = "$" + info.limite;
   document.getElementById("limiteEstadoBar").innerHTML = "$" + info.limite;
 
+  let simbolo = "&#9650";
+  let simboloPropio = "&#9650";
+  let estilo = "color: red";
+  let estiloPropio = "color: red";
+
+  let mesAnterior;
+  if(new Date().getMonth()+1==1) mesAnterior = 12;
+  else mesAnterior = new Date().getMonth();
+
+  const infoAnterior = anteriores.find((anterior) => {
+      if (parseInt(anterior.fechaInicio.split("/")[1]) == mesAnterior) {
+        return anterior;
+      }
+  });
+
+  if(infoAnterior){
+    let promedioAnterior = infoAnterior.stats.promedioDiario;
+    let promedioAnteriorPropio = infoAnterior.stats.promedioDiarioPropio;
+    let porcentajeAnterior = Math.round(((promedioAnterior - promedio) / promedioAnterior) * 100);
+    let porcentajeAnteriorPropio = Math.round(((promedioAnteriorPropio - promedioPropio) / promedioPropio) * 100);
+
+    console.log(promedioAnterior,porcentajeAnterior)
+
+    if (porcentajeAnterior > 0) {
+      simbolo = "&#9660";
+      estilo = "color: green";
+    }
+    else if (porcentajeAnterior == 0) {
+      simbolo = "=";
+      estilo = "color: orange; font-weight: bold";
+    }
+
+    if(porcentajeAnteriorPropio > 0) {
+      simboloPropio = "&#9660";
+      estiloPropio = "color: green";
+    }
+    else if(porcentajeAnteriorPropio == 0) {
+      simboloPropio = "=";
+      estiloPropio = "color: orange; font-weight: bold";
+    }
+
+    porcentajeAnterior = Math.abs(porcentajeAnterior);
+    porcentajeAnteriorPropio = Math.abs(porcentajeAnteriorPropio);
+
+    document.getElementById("promedioComparacion").innerHTML = ` <span style="${estilo}">${simbolo}</span> ${porcentajeAnterior}%*`;
+    document.getElementById("promedioComparacionPropio").innerHTML = ` <span style="${estiloPropio}">${simboloPropio}</span> ${porcentajeAnteriorPropio}%*`;
+    document.getElementById("aclaracionPeriodo").style.display = "block";
+  }
+
   if (diasRestantes <= 0) {
     Swal.fire({
       title: "¡Periodo finalizado!",
