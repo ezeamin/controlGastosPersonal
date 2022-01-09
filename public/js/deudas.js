@@ -21,7 +21,6 @@ import {
 let info = await loadInfo(false);
 let deudas;
 loadDeudas(false).then((deudasC) => {
-  deudasC = []
   if(deudasC.length > 0) {
     document.getElementById("datosVaciosDeudas").style.display = "none";
     deudas = deudasC;
