@@ -1,53 +1,47 @@
-self.addEventListener("install", function (event) {
-  event.waitUntil(preLoad());
+// This is the "Offline page" service worker
+
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+
+const CACHE = "pwabuilder-page";
+
+// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
+const offlineFallbackPage = "ToDo-replace-this-name.html";
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
-var preLoad = function () {
-  //console.log("Installing web app");
-  return caches.open("offline").then(function (cache) {
-    //console.log("caching index and important routes");
-    return cache.addAll(["/pages/offline.html"]);
-  });
-};
-
-self.addEventListener("fetch", function (event) {
-  event.respondWith(
-    checkResponse(event.request).catch(function () {
-      return returnFromCache(event.request);
-    })
+self.addEventListener('install', async (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))
   );
-  event.waitUntil(addToCache(event.request));
 });
 
-var checkResponse = function (request) {
-  return new Promise(function (fulfill, reject) {
-    fetch(request).then(function (response) {
-      if (response.status !== 404) {
-        fulfill(response);
-      } else {
-        reject();
-      }
-    }, reject);
-  });
-};
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
 
-var addToCache = function (request) {
-  return caches.open("offline").then(function (cache) {
-    return fetch(request).then(function (response) {
-      //console.log(response.url + " was cached");
-      return cache.put(request, response);
-    });
-  });
-};
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const preloadResp = await event.preloadResponse;
 
-var returnFromCache = function (request) {
-  return caches.open("offline").then(function (cache) {
-    return cache.match(request).then(function (matching) {
-      if (!matching || matching.status == 404) {
-        return cache.match("/pages/offline.html");
-      } else {
-        return matching;
+        if (preloadResp) {
+          return preloadResp;
+        }
+
+        const networkResp = await fetch(event.request);
+        return networkResp;
+      } catch (error) {
+
+        const cache = await caches.open(CACHE);
+        const cachedResp = await cache.match(offlineFallbackPage);
+        return cachedResp;
       }
-    });
-  });
-};
+    })());
+  }
+});
