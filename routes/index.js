@@ -237,7 +237,7 @@ router.post("/transferOldData", async (req, res) => {
   });
 
   await DbOld.create(Schema);
-/*
+
   await DbGastos.collection.drop();
 
   info.iniciales[0] = info.saldoEfectivo;
@@ -245,7 +245,7 @@ router.post("/transferOldData", async (req, res) => {
   info.fecha = date;
   info.gastoTC = 0;
 
-  await info.save();*/
+  await info.save();
   res.sendStatus(200);
 });
 
