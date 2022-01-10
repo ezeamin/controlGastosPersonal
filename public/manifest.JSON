@@ -1,7 +1,7 @@
 {
     "name": "Control de gastos",
     "short_name": "Gastos",
-    "start_url": "index.html",
+    "start_url": "/",
     "scope": "/",
     "description": "App para controlar gastos mensuales",
     "display": "standalone",
