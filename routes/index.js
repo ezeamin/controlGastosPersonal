@@ -258,7 +258,7 @@ router.get("/old", async (req, res) => {
 //
 
 router.get("*", (req, res) => {
-  res.sendFile(path.join(publicPath, "index.html"));
+  res.sendFile(path.join(publicPath, "/pages/404.html"));
 });
 
 //
