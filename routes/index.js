@@ -258,7 +258,7 @@ router.get("/old", async (req, res) => {
 //
 
 router.get("/manifest.json", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/manifest.json"));
+  res.sendFile(publicPath + "/manifest.json");
 });
 
 router.get("*", (req, res) => {
