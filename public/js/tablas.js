@@ -192,8 +192,8 @@ function crearFila(gasto) {
               <td class="deb_${gasto.codigo}">${debo}</td>
               <td class="deb_${gasto.codigo}">$ ${gasto.importe}</td>
               <td class="deb_${gasto.codigo}">
-                <button class="btn btn-warning my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
-                <button class="btn btn-danger my-1" data-bs-toggle="modal" data-bs-target="#modalCancelarDeuda" onclick="prepararDevolverDeuda('${gasto.codigo}')">Cancelar deuda</button>
+                <button class="btn btn-outline-warning btn-tabla my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
+                <button class="btn btn-outline-danger btn-tabla my-1" data-bs-toggle="modal" data-bs-target="#modalCancelarDeuda" onclick="prepararDevolverDeuda('${gasto.codigo}')">Cancelar deuda</button>
               </td>
           </tr>`;
 
@@ -215,7 +215,7 @@ function crearFila(gasto) {
               <td>${debo}</td>
               <td>$ ${gasto.importe}</td>
               <td>
-                <button class="btn btn-warning my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
+                <button class="btn btn-outline-warning btn-tabla my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
               </td>
           </tr>`;
   }

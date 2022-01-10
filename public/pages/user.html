@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
-    />
+    /> -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
@@ -25,7 +26,7 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="box-shadow: 0 0 5px black">
         <div class="container">
           <a class="navbar-brand" href="../index.html">Control de gastos</a>
           <a
@@ -49,6 +50,7 @@
             src="https://developers.google.com/web/images/contributors/no-photo.jpg?hl=es-419"
             alt="usuario"
             class="w-100"
+            style="border-radius: 50%; box-shadow: 0 0 5px rgba(0, 0, 0, 0.192);"
           />
         </div>
         <div class="col-8">
@@ -63,7 +65,7 @@
         </div>
       </div>
       <section class="mt-3">
-        <div class="card my-2">
+        <div class="card bg-light my-2">
           <div class="card-body">
             <h5 class="card-title mb-0">Estado</h5>
             <p class="textoImporte mb-2">
@@ -92,7 +94,7 @@
         </div>
       </section>
       <section class="mb-1">
-        <div class="card my-2">
+        <div class="card bg-light my-2">
           <div class="card-body">
             <h5 class="card-title mb-2">Gastos totales</h5>
             <div class="card-text">
@@ -117,13 +119,13 @@
         </div>
       </section>
       <section class="mb-1">
-        <div class="card my-2">
+        <div class="card bg-light my-2">
           <div class="card-body">
             <h5 class="card-title mb-0">Estadisticas</h5>
             <p class="textoImporte mb-2">
               Periodo: <span id="fechaInicial"></span>
             </p>
-            <div class="card-text">
+            <div class="card-text mb-0">
               <p class="mt-2 mb-0">
                 Total: <span id="totalGastos2" class="fw-bold"></span>
               </p>
@@ -161,7 +163,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
             <button
-              class="accordion-button collapsed"
+              class="accordion-button collapsed bg-light"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseOne"
@@ -177,7 +179,7 @@
             aria-labelledby="headingOne"
             data-bs-parent="acordeonGraficos"
           >
-            <div class="accordion-body">
+            <div class="accordion-body bg-light">
               <div class="position-relative w-100">
                 <div class="text-center">
                   <h3 class="display-6">Grafico de gastos</h3>
@@ -209,7 +211,7 @@
       </section>
       <button
         type="button"
-        class="btn btn-success w-100 py-3"
+        class="btn btn-outline-success w-100 py-3"
         data-bs-toggle="modal"
         data-bs-target="#modalAgregarFondos"
         id="btnAgregarFondos"
@@ -218,7 +220,7 @@
       </button>
       <button
         type="button"
-        class="btn btn-warning w-100 py-3 my-3"
+        class="btn btn-outline-warning w-100 py-3 my-3"
         data-bs-toggle="modal"
         data-bs-target="#modalAgregarFondos"
         id="btnTransferir"
@@ -227,7 +229,7 @@
       </button>
       <button
         type="button"
-        class="btn btn-info w-100 py-3 mb-3"
+        class="btn btn-outline-info w-100 py-3 mb-3"
         id="btnModificarLimite"
         data-bs-toggle="modal"
         data-bs-target="#modalLimite"
@@ -235,14 +237,14 @@
         Modificar limite
       </button>
       <a
-        class="btn btn-personalizado w-100 py-3 mb-3"
+        class="btn btn-personalizado text-light w-100 py-3 mb-3"
         href="/pages/periodos.html"
       >
         Periodos anteriores
       </a>
       <button
         type="button"
-        class="btn btn-danger w-100 py-3 mb-3"
+        class="btn btn-outline-danger w-100 py-3 mb-3"
         data-bs-toggle="modal"
         data-bs-target="#modalReset"
       >
@@ -250,7 +252,7 @@
       </button>
       <!-- <button
         type="button"
-        class="btn btn-info w-100 py-3 mb-3"
+        class="btn btn-outline-info w-100 py-3 mb-3"
         id="btnTransferirDatos"
       >
         Transferir datos
@@ -315,7 +317,7 @@
               <div class="text-end">
                 <button
                   type="submit"
-                  class="btn btn-success mt-2"
+                  class="btn btn-outline-success mt-2"
                   id="btnAñadir"
                 >
                   Añadir
@@ -351,11 +353,11 @@
               <button
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                class="btn btn-secondary mt-2"
+                class="btn btn-outline-secondary mt-2"
               >
                 Cancelar
               </button>
-              <button type="submit" class="btn btn-danger mt-2" id="reset">
+              <button type="submit" class="btn btn-outline-danger mt-2" id="reset">
                 Iniciar
               </button>
             </div>
@@ -384,14 +386,14 @@
           <div class="modal-body">
             <form action="" id="formularioLimite">
               <div>
-                <label for="importe" class="mb-2">Nuevo limite</label>
+                <label for="importe" class="mb-1">Nuevo limite</label>
                 <input
                   type="number"
                   class="form-control"
                   id="limite"
                   placeholder="Limite"
                 />
-                <p class="textoImporte mt-0">
+                <p class="textoImporte mt-1">
                   Actual: <span id="limiteActual"></span>
                 </p>
                 <div class="invalid-feedback" id="invalidLimite">
@@ -401,7 +403,7 @@
               <div class="text-end">
                 <button
                   type="submit"
-                  class="btn btn-info mt-2"
+                  class="btn btn-outline-info mt-2"
                   id="btnModificar"
                 >
                   Modificar

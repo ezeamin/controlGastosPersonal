@@ -13,6 +13,10 @@ main{
   padding-top: 56px;
 }
 
+hr{
+  height: 1px !important;
+}
+
 .textoImporte {
   color: gray;
   font-size: 13px;
@@ -123,7 +127,7 @@ main{
 }
 
 .btn-personalizado{
-  background-color: #e683e6;
+  background-color: #fa66fa;
 }
 
 #datosVacios{
@@ -154,4 +158,24 @@ main{
 
 .agregarDeudor{
   z-index: 200;
+}
+
+.btn-tabla{
+  padding: 10px 15px;
+}
+
+.table>:first-child{
+  border-bottom: 1px solid #7b8ab82e !important;
+}
+
+td,th{
+  border-color: #7b8ab809  !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+input,select{
+  padding: 10px 15px !important;
 }

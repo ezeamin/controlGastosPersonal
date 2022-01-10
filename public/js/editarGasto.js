@@ -31,6 +31,7 @@ async function traerInfo() {
   let id = getId();
 
   let gasto = await findGasto(id);
+  console.log(gasto)
 
   campoConcepto.value = gasto.concepto;
   campoCategoria.value = gasto.categoria;

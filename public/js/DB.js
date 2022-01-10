@@ -72,19 +72,19 @@ export function cargarInfo(nuevoUsuario) {
 }
 
 export async function findGasto(codigo) {
-  const res = await fetch(`/gastos/${codigo}`, {
+  const res = await fetch(`/gastosFind/${codigo}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
   const gasto = await res.json();
-
+  
   return gasto;
 }
 
 export async function actualizarGasto(gasto) {
-  const res = await fetch(`/gastos/${gasto.codigo}`, {
+  const res = await fetch(`/gastosFind/${gasto.codigo}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

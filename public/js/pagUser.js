@@ -72,7 +72,7 @@ botonTransferencia.addEventListener("click", () => {
   document.getElementById("lblCuenta").innerHTML = "Cuenta Destino";
   document.getElementById("comentario").placeholder = "Comentario";
   document.getElementById("btnAñadir").innerHTML = "Transferir";
-  document.getElementById("btnAñadir").classList = "btn btn-warning mt-2";
+  document.getElementById("btnAñadir").classList = "btn btn-outline-warning mt-2";
 });
 botonAñadir.addEventListener("click", () => {
   transferencia = false;
@@ -81,7 +81,7 @@ botonAñadir.addEventListener("click", () => {
   document.getElementById("lblCuenta").innerHTML = "Cuenta";
   document.getElementById("comentario").placeholder = "Devolucion de prestamo";
   document.getElementById("btnAñadir").innerHTML = "Añadir";
-  document.getElementById("btnAñadir").classList = "btn btn-success mt-2";
+  document.getElementById("btnAñadir").classList = "btn btn-outline-success mt-2";
 });
 botonModificarLimite.addEventListener("click", () => {});
 /*botonTrasferirDatos.addEventListener("click", () => {

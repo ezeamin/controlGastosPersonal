@@ -174,7 +174,7 @@ function crearFila(deuda) {
                 <td>${deuda.lista[i].comentario}</td>
                 <td> </td>
                 <td>
-                  <button class="btn btn-danger my-1" data-bs-toggle="modal" data-bs-target="#modalCancelarDeuda" onclick="prepararCancelarDeuda('${deuda.codigoDeudor}','${deuda.lista[i].codigoDeuda}')">Cancelar</button>
+                  <button class="btn btn-outline-danger btn-tabla my-1" data-bs-toggle="modal" data-bs-target="#modalCancelarDeuda" onclick="prepararCancelarDeuda('${deuda.codigoDeudor}','${deuda.lista[i].codigoDeuda}')">Cancelar</button>
                 </td>
             </tr>`;
   }

@@ -123,7 +123,7 @@ async function cargarDatosTabla() {
           <td class="pag_${pago.codigo}">$ ${pago.importe}</td>
           <td class="pag_${pago.codigo}">${pago.comentario}</td>
           <td class="pag_${pago.codigo}">
-            <button class="btn btn-danger my-1" data-bs-toggle="modal" data-bs-target="#modalPagarPago" onclick="prepararCancelarPago('${pago.codigo}')">Cancelar</button>
+            <button class="btn btn-outline-danger btn-tabla my-1" data-bs-toggle="modal" data-bs-target="#modalPagarPago" onclick="prepararCancelarPago('${pago.codigo}')">Cancelar</button>
           </td>
       </tr>`;
 

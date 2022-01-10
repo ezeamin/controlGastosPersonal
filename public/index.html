@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
-    />
+    /> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="manifest" href="manifest.json" />
@@ -19,7 +20,7 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="box-shadow: 0 0 5px black;">
         <div class="container">
           <a class="navbar-brand" href="#">Control de gastos</a>
           <a
@@ -46,22 +47,22 @@
         <h3 class="display-6">
           Saldo TD: <span id="saldoTD" class="fw-bold">$ </span>
         </h3>
-        <hr>
+        <hr >
         <h3 class="display-6">
           Total: <span id="saldoTotal" class="fw-bold">$ </span><span id="saldoADescontar" class="text-secondary"></span>
         </h3>
       </div>
       <div class="botonesIndex mt-5">
-        <a href="pages/nuevoGasto.html" class="btn btn-danger py-3 d-block"
+        <a href="pages/nuevoGasto.html" class="btn btn-outline-danger py-3 d-block"
           >Nuevo gasto</a
         >
-        <a href="pages/tablas.html" class="btn btn-warning my-4 py-3 d-block"
+        <a href="pages/tablas.html" class="btn btn-outline-warning my-4 py-3 d-block"
           >Ver gastos</a
         >
-        <a href="pages/deudas.html" class="btn btn-primary my-4 py-3 d-block"
+        <a href="pages/deudas.html" class="btn btn-outline-primary my-4 py-3 d-block"
           >Deudores</a
         >
-        <a href="pages/proxPagos.html" class="btn btn-success my-4 py-3 d-block"
+        <a href="pages/proxPagos.html" class="btn btn-outline-success my-4 py-3 d-block"
           >Proximos pagos</a
         >
       </div>

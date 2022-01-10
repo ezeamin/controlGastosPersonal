@@ -73,6 +73,14 @@ router.get("/gastos/:min", async (req, res) => {
   res.status(200).json(gastos);
 });
 
+router.get("/gastosFind/:cod", async (req, res) => {
+  let cod = req.params["cod"];
+
+  let gasto = await DbGastos.findOne({ codigo: cod });
+
+  res.status(200).json(gasto);
+});
+
 router.get("/gastosLength/:min", async (req, res) => {
   let min = req.params["min"];
 
@@ -81,15 +89,7 @@ router.get("/gastosLength/:min", async (req, res) => {
   res.status(200).json({ length });
 });
 
-router.get("/gastos/:codigo", async (req, res) => {
-  let codigo = req.params["codigo"];
-
-  let gasto = await DbGastos.findOne({ codigo });
-
-  res.status(200).json(gasto);
-});
-
-router.put("/gastos/:codigo", async (req, res) => {
+router.put("/gastosFind/:codigo", async (req, res) => {
   let codigo = req.params["codigo"];
 
   let gasto = req.body;
