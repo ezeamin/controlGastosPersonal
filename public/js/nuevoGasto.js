@@ -39,23 +39,13 @@ campoOrigen.addEventListener("change", () => {
     campoPago.disabled = true;
   }
   else campoPago.disabled = false;
+
+  activarSaldoDisponible();
 });
 campoPago.addEventListener("change", () => {
   document.getElementById("disponible").style.display = "none";
 
-  let campo = document.getElementById("saldoDisponible");
-  switch (campoPago.value) {
-    case "Efectivo": {
-      document.getElementById("disponible").style.display = "block";
-      campo.innerHTML = info.saldoEfectivo;
-      break;
-    }
-    case "TD": {
-      document.getElementById("disponible").style.display = "block";
-      campo.innerHTML = info.saldoTD;
-      break;
-    }
-  }
+  activarSaldoDisponible();
 });
 campoOrigen.addEventListener("blur", () => {
   campoRequeridoSelect(campoOrigen);
@@ -64,6 +54,27 @@ campoPago.addEventListener("blur", () => {
   campoRequeridoSelect(campoPago);
 });
 formulario.addEventListener("submit", guardarGasto);
+
+function activarSaldoDisponible(){
+  if(campoOrigen.value == "Plata propia"){
+    let campo = document.getElementById("saldoDisponible");
+    switch (campoPago.value) {
+      case "Efectivo": {
+        document.getElementById("disponible").style.display = "block";
+        campo.innerHTML = info.saldoEfectivo;
+        break;
+      }
+      case "TD": {
+        document.getElementById("disponible").style.display = "block";
+        campo.innerHTML = info.saldoTD;
+        break;
+      }
+    }
+  }
+  else{
+    document.getElementById("disponible").style.display = "none";
+  }
+}
 
 function guardarGasto(e) {
   e.preventDefault();

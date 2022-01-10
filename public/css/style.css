@@ -176,6 +176,18 @@ td,th{
   border-bottom: 0 !important;
 }
 
-input,select{
+td:first-child,th:first-child{
+  border-left: 0 !important;
+}
+
+td:last-child,th:last-child{
+  border-right: 0 !important;
+}
+
+input,select,textarea{
   padding: 10px 15px !important;
+}
+
+.form-check-input{
+  padding: 10px 10px !important;
 }
