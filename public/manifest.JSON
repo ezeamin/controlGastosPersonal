@@ -2,10 +2,10 @@
     "name": "Control de gastos",
     "short_name": "Gastos",
     "start_url": "index.html",
+    "scope": "/",
+    "description": "App para controlar gastos mensuales",
     "display": "standalone",
     "background_color": "#fdfdfd",
-    "theme_color": "#6c757d",
-    "orientation": "portrait-primary",
-    "scope": "/",
-    "description": "App para controlar gastos mensuales"
+    "theme_color": "#378dfc",
+    "orientation": "portrait-primary"
   }
