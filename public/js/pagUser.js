@@ -493,6 +493,21 @@ async function getInfo2() {
   return [mesesHastaHoy, totalAnteriores, totalAnterioresPropio];
 }
 
+async function getInfo3() {
+  let inicialEfectivoAnteriores = anteriores.map((periodo) => {
+    return periodo.stats.iniciales.efectivo;
+  }) || [];
+  inicialEfectivoAnteriores.push(info.iniciales[0]);
+  let inicialTDAnteriores = anteriores.map((periodo) => {
+    return periodo.stats.iniciales.TD;
+  }) || [];
+  inicialTDAnteriores.push(info.iniciales[1]);
+
+  console.log(inicialEfectivoAnteriores, inicialTDAnteriores);
+
+  return [inicialEfectivoAnteriores, inicialTDAnteriores];
+}
+
 async function generarGraficos(gastos) {
   gastos = gastos.filter((gasto) => {
     return gasto.categoria != "Fondeo" && gasto.categoria != "Pago de deuda";
@@ -500,6 +515,7 @@ async function generarGraficos(gastos) {
 
   const info1 = getInfo1(gastos);
   const info2 = await getInfo2(gastos);
+  const info3 = await getInfo3(gastos);
 
   const ctx = document.getElementById("graficoDonut").getContext("2d");
   new Chart(ctx, {
@@ -518,7 +534,7 @@ async function generarGraficos(gastos) {
     },
   });
 
-  const ctx2 = document.getElementById("graficoHistoria").getContext("2d");
+  const ctx2 = document.getElementById("graficoGastos").getContext("2d");
   new Chart(ctx2, {
     type: "line",
     data: {
@@ -533,6 +549,35 @@ async function generarGraficos(gastos) {
           label: "Total propio",
           data: info2[2],
           backgroundColor: "#f86f6f",
+        },
+      ],
+    },
+    options: {
+      resonsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          min: 0,
+        },
+      },
+    },
+  });
+
+  const ctx3 = document.getElementById("graficoFondos").getContext("2d");
+  new Chart(ctx3, {
+    type: "line",
+    data: {
+      labels: info2[0],
+      datasets: [
+        {
+          label: "Efectivo",
+          data: info3[0],
+          backgroundColor: "#5dc92e",
+        },
+        {
+          label: "TD",
+          data: info3[1],
+          backgroundColor: "#c585ed",
         },
       ],
     },
