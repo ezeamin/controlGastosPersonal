@@ -52,6 +52,13 @@ btnCargarMas.addEventListener("click", async () => {
   document.getElementById("loadingScreen").style.display = "none";
 });
 
+window.addEventListener('scroll', function () {
+  let fab = document.getElementsByClassName('fab')[0];
+  let windowPosition = window.scrollY > 400;
+
+  fab.classList.toggle('scrolling-active__fab', windowPosition);
+})
+
 async function filtrarTabla(categoria, pago, origen) {
   document.getElementById("loadingScreen").style.display = "flex";
   let listaFiltrada = await loadGastos(-2);

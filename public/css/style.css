@@ -191,3 +191,32 @@ input,select,textarea{
 .form-check-input{
   padding: 10px 10px !important;
 }
+
+.body-tabla{
+  position: relative;
+}
+
+.fab{
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  opacity: 0;
+  transition: all 0.25s ease;
+  z-index: 98;
+  padding: 1rem 1.2rem;
+  font-size: 30px;
+  border-radius: 50%;
+  background-color: #378dfc;
+  
+  cursor: default;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.fab i{
+  color: #fff
+}
+
+.scrolling-active__fab {
+  opacity: 1;
+  cursor: pointer;
+}
