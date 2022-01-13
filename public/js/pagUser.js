@@ -37,7 +37,8 @@ let total,
   efectivoPapas,
   TC,
   TCPropio,
-  TD;
+  TD,
+  ajena;
 
 let info = await loadInfo(false);
 let anteriores = await loadOld();
@@ -156,6 +157,7 @@ async function cargarGastos() {
   TC = info.gastoTC;
   TCPropio = 0;
   TD = 0;
+  ajena = 0;
   let debo = 0;
   let aFavor = 0;
 
@@ -172,6 +174,8 @@ async function cargarGastos() {
       TCPropio += parseFloat(gasto.importe);
     else if (gasto.pago == "TD" && gasto.categoria != "Fondeo")
       TD += parseFloat(gasto.importe);
+    else if (gasto.origen == "Plata ajena")
+      ajena += parseFloat(gasto.importe);
 
     if (gasto.debo) debo += parseFloat(gasto.importe);
   });
@@ -191,7 +195,7 @@ async function cargarGastos() {
   document.getElementById("debes").innerHTML = "$" + debo;
   document.getElementById("aFavor").innerHTML = "$" + aFavor;
 
-  total = efectivoPropio + efectivoPapas + TC + TD;
+  total = efectivoPropio + efectivoPapas + TC + TD + ajena;
   totalPropio = efectivoPropio + TD + TCPropio;
   totalPapas = efectivoPapas + (TC - TCPropio);
 
@@ -498,14 +502,19 @@ async function getInfo3() {
     return periodo.stats.iniciales.efectivo;
   }) || [];
   inicialEfectivoAnteriores.push(info.iniciales[0]);
+
   let inicialTDAnteriores = anteriores.map((periodo) => {
     return periodo.stats.iniciales.TD;
   }) || [];
   inicialTDAnteriores.push(info.iniciales[1]);
+  
+  let totalAnteriores = [];
+  for(let i = 0; i < anteriores.length; i++){
+    totalAnteriores.push(inicialEfectivoAnteriores[i] + inicialTDAnteriores[i]);
+  }
+  totalAnteriores.push(info.iniciales[0] + info.iniciales[1]);
 
-  let total = info.iniciales[0] + info.iniciales[1];
-
-  return [inicialEfectivoAnteriores, inicialTDAnteriores,total];
+  return [inicialEfectivoAnteriores, inicialTDAnteriores,totalAnteriores];
 }
 
 async function generarGraficos(gastos) {
@@ -563,6 +572,7 @@ async function generarGraficos(gastos) {
     },
   });
 
+  console.log(info3)
   const ctx3 = document.getElementById("graficoFondos").getContext("2d");
   new Chart(ctx3, {
     type: "line",
@@ -582,7 +592,7 @@ async function generarGraficos(gastos) {
         {
           label: "Total",
           data: info3[2],
-          backgroundColor: "##afcbff",
+          backgroundColor: "#afcbff",
         },
       ],
     },
