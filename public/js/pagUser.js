@@ -503,9 +503,9 @@ async function getInfo3() {
   }) || [];
   inicialTDAnteriores.push(info.iniciales[1]);
 
-  console.log(inicialEfectivoAnteriores, inicialTDAnteriores);
+  let total = info.iniciales[0] + info.iniciales[1];
 
-  return [inicialEfectivoAnteriores, inicialTDAnteriores];
+  return [inicialEfectivoAnteriores, inicialTDAnteriores,total];
 }
 
 async function generarGraficos(gastos) {
@@ -578,6 +578,11 @@ async function generarGraficos(gastos) {
           label: "TD",
           data: info3[1],
           backgroundColor: "#c585ed",
+        },
+        {
+          label: "Total",
+          data: info3[2],
+          backgroundColor: "##afcbff",
         },
       ],
     },
