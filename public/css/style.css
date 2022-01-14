@@ -184,7 +184,7 @@ td:last-child,th:last-child{
   border-right: 0 !important;
 }
 
-tr:last-child>td{
+tr:last-child>td:first-child{
   border-radius: 0 0 0 20px !important;
 }
 
