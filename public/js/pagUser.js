@@ -450,7 +450,7 @@ function getInfo1(gastos) {
     else if (gasto.categoria == "Salud") categorias[8] += gasto.importe;
     else if (gasto.categoria == "Pago programado")
       categorias[9] += gasto.importe;
-    categorias[10] += gasto.importe;
+    else categorias[10] += gasto.importe;
   });
 
   let colores = [
