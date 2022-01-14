@@ -102,6 +102,8 @@ function guardarFondeo(e) {
 }
 
 async function cargarFondo() {
+  document.getElementById("btnAñadir").disabled = true;
+
   switch (campoCuenta.value) {
     case "Efectivo": {
       info.saldoEfectivo += parseFloat(campoImporte.value);
@@ -116,7 +118,9 @@ async function cargarFondo() {
   await actualizarInfo(info);
 
   agregarATabla();
-  limpiarFormulario();
+  //limpiarFormulario();
+
+  document.getElementById("btnAñadir").disabled = false;
 
   Swal.fire({
     title: "Importe cargado",
@@ -659,6 +663,8 @@ async function cargarTransferencia() {
 }
 
 async function iniciarNuevoPeriodo() {
+  document.getElementById("reset").disabled = true;
+
   await transferOldData(
     total,
     totalPropio,
@@ -670,6 +676,8 @@ async function iniciarNuevoPeriodo() {
     TCPropio,
     TD
   );
+
+  document.getElementById("reset").disabled = false;
   Swal.fire({
     title: "Nuevo periodo",
     text: "Felicidades, sobreviviste un nuevo mes",
@@ -681,10 +689,13 @@ async function iniciarNuevoPeriodo() {
   });
 }
 
-function guardarLimite(e) {
+async function guardarLimite(e) {
   e.preventDefault();
+  document.getElementById("btnModificar").disabled = true;
+
   info.limite = parseFloat(campoLimite.value);
-  actualizarInfo(info);
+  await actualizarInfo(info);
+  document.getElementById("btnModificar").disabled = false;
   Swal.fire({
     title: "Limite actualizado",
     text: "Se ha actualizado correctamente el limite",

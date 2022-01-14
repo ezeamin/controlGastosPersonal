@@ -72,6 +72,7 @@ function guardarPago(e) {
 }
 
 async function cargarPagos() {
+  document.getElementById("btnGuardar").disabled = true;
   let nuevoPago = new Pago(
     campoConcepto.value,
     campoImporte.value,
@@ -81,8 +82,9 @@ async function cargarPagos() {
 
   await cargarPago(nuevoPago);
 
-  limpiarFormulario();
+  //limpiarFormulario();
 
+  document.getElementById("btnGuardar").disabled = false;
   Swal.fire({
     title: "Pago agregado",
     text: "El pago se ha agregado correctamente",
@@ -197,42 +199,53 @@ function cancelarPago(e) {
 }
 
 async function eliminarPago() {
-  let importe = pagos.find(
+  document.getElementById("btnPagar").disabled = true;
+  let pago = pagos.find(
     (pago) => pago.codigo == location.href.split("#cod=")[1]
-  ).importe;
-
-  console.log(importe);
+  );
 
   document.getElementById("cuenta").className = "form-select";
   document.getElementById("errorSelect").innerHTML = "Seleccione una opcion";
   switch (campoCuenta.value) {
     case "Efectivo": {
-      if (info.saldoEfectivo < importe) {
+      if (info.saldoEfectivo < pago.importe) {
         document.getElementById("errorSelect").innerHTML = "Saldo insuficiente";
         document.getElementById("cuenta").className = "form-select is-invalid";
+        document.getElementById("btnPagar").disabled = false;
         return;
       }
 
-      info.saldoEfectivo -= parseInt(importe);
+      info.saldoEfectivo -= parseInt(pago.importe);
       break;
     }
     case "TD": {
-      if (info.saldoTD < importe) {
+      if (info.saldoTD < pago.importe) {
         document.getElementById("errorSelect").innerHTML = "Saldo insuficiente";
         document.getElementById("cuenta").className = "form-select is-invalid";
+        document.getElementById("btnPagar").disabled = false;
         return;
       }
 
-      info.saldoTD -= parseInt(importe);
+      info.saldoTD -= parseInt(pago.importe);
       break;
     }
   }
 
-  info.pagosPendientes -= parseInt(importe);
+  info.pagosPendientes -= parseInt(pago.importe);
   await actualizarInfo(info);
+
+  let comentario = document.getElementById("comentarioPagar").value;
+
+  agregarATabla(
+    pago.concepto,
+    pago.importe,
+    campoCuenta.value,
+    comentario
+  );
 
   await deletePago(location.href.split("#cod=")[1]);
 
+  document.getElementById("btnPagar").disabled = false;
   Swal.fire({
     title: "Pago cancelado",
     text: "El pago se ha cancelado correctamente",
@@ -243,4 +256,12 @@ async function eliminarPago() {
   }).then(() => {
     window.location.reload();
   });
+}
+
+async function agregarATabla(detalle, importe, cuenta, comentarioPago) {
+  let concepto = "Pago: "+ detalle;
+
+  let gasto = new Gasto(concepto, "Pago programado", importe, "Plata propia", cuenta, comentario);
+
+  await cargarGasto(gasto);
 }

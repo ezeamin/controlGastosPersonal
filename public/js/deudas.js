@@ -104,6 +104,7 @@ async function guardarDeuda() {
   }
 
   if (campoCuentaAgregar.value != "None") {
+    document.getElementById("btnGuardar").disabled = true;
     let cuenta = campoCuentaAgregar.value;
 
     if (cuenta == "Efectivo") info.saldoEfectivo -= parseFloat(detalle.importe);
@@ -112,8 +113,9 @@ async function guardarDeuda() {
     await actualizarInfo(info);
   }
 
-  limpiarFormulario();
+  //limpiarFormulario();
 
+  document.getElementById("btnGuardar").disabled = false;
   Swal.fire({
     title: "Deuda agregada",
     text: "La deuda se ha agregado correctamente",
@@ -216,6 +218,7 @@ async function cancelarDeuda(e) {
   e.preventDefault();
 
   if (campoRequeridoSelect(campoCuenta)) {
+    document.getElementById("btnConfirmar").disabled = true;
     let codDeudor = getDeudor();
     let codDeuda = getDeuda();
 
@@ -260,6 +263,7 @@ async function cancelarDeuda(e) {
       document.getElementById("ignorar").checked
     );
 
+    document.getElementById("btnConfirmar").disabled = false;
     Swal.fire({
       title: "Deuda cancelada",
       text: "La deuda se ha cancelado correctamente",

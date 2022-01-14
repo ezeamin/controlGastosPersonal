@@ -115,6 +115,7 @@ function guardarGasto(e) {
 }
 
 async function crearGasto() {
+  document.getElementById("btnGuardar").disabled = true;
   let comentario = campoComentario.value.trim();
 
   let gastoNuevo = new Gasto(
@@ -128,10 +129,11 @@ async function crearGasto() {
 
   descontarDinero(campoOrigen.value, campoPago.value, campoImporte.value);
 
-  limpiarFormulario();
+  //limpiarFormulario();
 
   const data = await cargarGasto(gastoNuevo);
   if (data.code == "200") {
+    document.getElementById("btnGuardar").disabled = false;
     Swal.fire({
       title: "Exito",
       text: "Gasto cargado correctamente",

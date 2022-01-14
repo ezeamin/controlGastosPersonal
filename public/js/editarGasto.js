@@ -180,6 +180,7 @@ function resetearSaldos(info) {
 }
 
 async function editarGasto() {
+  document.getElementById("btnGuardar").disabled = true;
   let comentario = campoComentario.value.trim();
 
   if (comentario != "") {
@@ -206,8 +207,9 @@ async function editarGasto() {
 
   await descontarDinero(campoOrigen.value, campoPago.value, campoImporte.value);
 
-  limpiarFormulario();
+  //limpiarFormulario();
 
+  document.getElementById("btnGuardar").disabled = false;
   Swal.fire({
     title: "Exito",
     text: "Gasto modificado correctamente",
