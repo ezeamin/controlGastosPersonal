@@ -73,7 +73,8 @@ botonTransferencia.addEventListener("click", () => {
   document.getElementById("lblCuenta").innerHTML = "Cuenta Destino";
   document.getElementById("comentario").placeholder = "Comentario";
   document.getElementById("btnAñadir").innerHTML = "Transferir";
-  document.getElementById("btnAñadir").classList = "btn btn-outline-warning mt-2";
+  document.getElementById("btnAñadir").classList =
+    "btn btn-outline-warning mt-2";
 });
 botonAñadir.addEventListener("click", () => {
   transferencia = false;
@@ -82,12 +83,13 @@ botonAñadir.addEventListener("click", () => {
   document.getElementById("lblCuenta").innerHTML = "Cuenta";
   document.getElementById("comentario").placeholder = "Devolucion de prestamo";
   document.getElementById("btnAñadir").innerHTML = "Añadir";
-  document.getElementById("btnAñadir").classList = "btn btn-outline-success mt-2";
+  document.getElementById("btnAñadir").classList =
+    "btn btn-outline-success mt-2";
 });
 botonModificarLimite.addEventListener("click", () => {});
-/*botonTrasferirDatos.addEventListener("click", () => {
-  transferirDatos();
-});*/
+// botonTrasferirDatos.addEventListener("click", () => {
+//   transferirDatos();
+// });
 
 formulario.addEventListener("submit", guardarFondeo);
 formularioLimite.addEventListener("submit", guardarLimite);
@@ -178,8 +180,7 @@ async function cargarGastos() {
       TCPropio += parseFloat(gasto.importe);
     else if (gasto.pago == "TD" && gasto.categoria != "Fondeo")
       TD += parseFloat(gasto.importe);
-    else if (gasto.origen == "Plata ajena")
-      ajena += parseFloat(gasto.importe);
+    else if (gasto.origen == "Plata ajena") ajena += parseFloat(gasto.importe);
 
     if (gasto.debo) debo += parseFloat(gasto.importe);
   });
@@ -306,37 +307,39 @@ async function cargarGastos() {
   let estiloPropio = "color: red";
 
   let mesAnterior;
-  if(new Date().getMonth()+1==1) mesAnterior = 12;
+  if (new Date().getMonth() + 1 == 1) mesAnterior = 12;
   else mesAnterior = new Date().getMonth();
 
   const infoAnterior = anteriores.find((anterior) => {
-      if (parseInt(anterior.fechaInicio.split("/")[1]) == mesAnterior) {
-        return anterior;
-      }
+    if (parseInt(anterior.fechaInicio.split("/")[1]) == mesAnterior) {
+      return anterior;
+    }
   });
 
-  if(infoAnterior){
+  if (infoAnterior) {
     let promedioAnterior = infoAnterior.stats.promedioDiario;
     let promedioAnteriorPropio = infoAnterior.stats.promedioDiarioPropio;
-    let porcentajeAnterior = Math.round(((promedioAnterior - promedio) / promedioAnterior) * 100);
-    let porcentajeAnteriorPropio = Math.round(((promedioAnteriorPropio - promedioPropio) / promedioPropio) * 100);
+    let porcentajeAnterior = Math.round(
+      ((promedioAnterior - promedio) / promedioAnterior) * 100
+    );
+    let porcentajeAnteriorPropio = Math.round(
+      ((promedioAnteriorPropio - promedioPropio) / promedioPropio) * 100
+    );
 
-    console.log(promedioAnterior,porcentajeAnterior)
+    console.log(promedioAnterior, porcentajeAnterior);
 
     if (porcentajeAnterior > 0) {
       simbolo = "&#9660";
       estilo = "color: green";
-    }
-    else if (porcentajeAnterior == 0) {
+    } else if (porcentajeAnterior == 0) {
       simbolo = "=";
       estilo = "color: orange; font-weight: bold";
     }
 
-    if(porcentajeAnteriorPropio > 0) {
+    if (porcentajeAnteriorPropio > 0) {
       simboloPropio = "&#9660";
       estiloPropio = "color: green";
-    }
-    else if(porcentajeAnteriorPropio == 0) {
+    } else if (porcentajeAnteriorPropio == 0) {
       simboloPropio = "=";
       estiloPropio = "color: orange; font-weight: bold";
     }
@@ -344,8 +347,12 @@ async function cargarGastos() {
     porcentajeAnterior = Math.abs(porcentajeAnterior);
     porcentajeAnteriorPropio = Math.abs(porcentajeAnteriorPropio);
 
-    document.getElementById("promedioComparacion").innerHTML = ` <span style="${estilo}">${simbolo}</span> ${porcentajeAnterior}%*`;
-    document.getElementById("promedioComparacionPropio").innerHTML = ` <span style="${estiloPropio}">${simboloPropio}</span> ${porcentajeAnteriorPropio}%*`;
+    document.getElementById(
+      "promedioComparacion"
+    ).innerHTML = ` <span style="${estilo}">${simbolo}</span> ${porcentajeAnterior}%*`;
+    document.getElementById(
+      "promedioComparacionPropio"
+    ).innerHTML = ` <span style="${estiloPropio}">${simboloPropio}</span> ${porcentajeAnteriorPropio}%*`;
     document.getElementById("aclaracionPeriodo").style.display = "block";
   }
 
@@ -422,10 +429,11 @@ function getInfo1(gastos) {
     "Auto/Nafta",
     "Estudios",
     "Salud",
+    "Programados",
     "Varios",
   ];
 
-  let categorias = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let categorias = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   gastos.forEach((gasto) => {
     if (gasto.categoria == "Comida/Merienda") categorias[0] += gasto.importe;
@@ -440,7 +448,9 @@ function getInfo1(gastos) {
     else if (gasto.categoria == "Auto/Nafta") categorias[6] += gasto.importe;
     else if (gasto.categoria == "Estudios") categorias[7] += gasto.importe;
     else if (gasto.categoria == "Salud") categorias[8] += gasto.importe;
-    else categorias[9] += gasto.importe;
+    else if (gasto.categoria == "Pago programado")
+      categorias[9] += gasto.importe;
+    categorias[10] += gasto.importe;
   });
 
   let colores = [
@@ -453,6 +463,7 @@ function getInfo1(gastos) {
     "#ffcbc1",
     "#aff8db",
     "#9ad2e6",
+    "#c585ed",
     "#b5c5d7",
   ];
 
@@ -472,8 +483,6 @@ async function getInfo2() {
     );
   });
   totalAnterioresPropio.push(totalPropio);
-
-  //console.log(totalAnteriores, totalAnterioresPropio);
 
   let mesActual = new Date().getMonth();
 
@@ -502,23 +511,25 @@ async function getInfo2() {
 }
 
 async function getInfo3() {
-  let inicialEfectivoAnteriores = anteriores.map((periodo) => {
-    return periodo.stats.iniciales.efectivo;
-  }) || [];
+  let inicialEfectivoAnteriores =
+    anteriores.map((periodo) => {
+      return periodo.stats.iniciales.efectivo;
+    }) || [];
   inicialEfectivoAnteriores.push(info.iniciales[0]);
 
-  let inicialTDAnteriores = anteriores.map((periodo) => {
-    return periodo.stats.iniciales.TD;
-  }) || [];
+  let inicialTDAnteriores =
+    anteriores.map((periodo) => {
+      return periodo.stats.iniciales.TD;
+    }) || [];
   inicialTDAnteriores.push(info.iniciales[1]);
-  
+
   let totalAnteriores = [];
-  for(let i = 0; i < anteriores.length; i++){
+  for (let i = 0; i < anteriores.length; i++) {
     totalAnteriores.push(inicialEfectivoAnteriores[i] + inicialTDAnteriores[i]);
   }
   totalAnteriores.push(info.iniciales[0] + info.iniciales[1]);
 
-  return [inicialEfectivoAnteriores, inicialTDAnteriores,totalAnteriores];
+  return [inicialEfectivoAnteriores, inicialTDAnteriores, totalAnteriores];
 }
 
 async function generarGraficos(gastos) {
@@ -576,7 +587,7 @@ async function generarGraficos(gastos) {
     },
   });
 
-  console.log(info3)
+  console.log(info3);
   const ctx3 = document.getElementById("graficoFondos").getContext("2d");
   new Chart(ctx3, {
     type: "line",

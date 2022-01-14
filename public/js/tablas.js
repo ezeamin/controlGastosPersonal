@@ -164,7 +164,7 @@ function crearFila(gasto) {
   let debo = "No";
   if (gasto.debo) debo = "Si";
 
-  if (gasto.categoria == "Fondeo" || gasto.categoria == "Pago de deuda") {
+  if (gasto.categoria == "Fondeo" || gasto.categoria == "Pago de deuda" || gasto.categoria == "Pago programado") {
     fila.innerHTML += `
             <tr>
             <td id="cat_${gasto.codigo}"> </td>
@@ -275,6 +275,10 @@ function crearFila(gasto) {
     }
     case "Salud": {
       cat.style.backgroundColor = "#9ad2e6";
+      break;
+    }
+    case "Pago programado": {
+      cat.style.backgroundColor = "#c585ed";
       break;
     }
   }

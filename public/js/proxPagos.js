@@ -12,8 +12,10 @@ import {
   actualizarInfo,
   loadPagos,
   cargarPago,
-  deletePago
+  deletePago,
+  cargarGasto
 } from "./DB.js";
+import { Gasto } from "./gasto.js";
 
 let campoConcepto = document.getElementById("concepto");
 let campoImporte = document.getElementById("importe");
@@ -235,11 +237,13 @@ async function eliminarPago() {
   await actualizarInfo(info);
 
   let comentario = document.getElementById("comentarioPagar").value;
+  let cuenta = campoCuenta.value;
+  if(cuenta=="Ninguna") cuenta = "";
 
   agregarATabla(
     pago.concepto,
     pago.importe,
-    campoCuenta.value,
+    cuenta,
     comentario
   );
 
@@ -261,7 +265,7 @@ async function eliminarPago() {
 async function agregarATabla(detalle, importe, cuenta, comentarioPago) {
   let concepto = "Pago: "+ detalle;
 
-  let gasto = new Gasto(concepto, "Pago programado", importe, "Plata propia", cuenta, comentario);
+  let gasto = new Gasto(concepto, "Pago programado", importe, "Plata propia", cuenta, comentarioPago);
 
   await cargarGasto(gasto);
 }
