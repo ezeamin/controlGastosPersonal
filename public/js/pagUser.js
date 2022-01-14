@@ -424,7 +424,7 @@ function getInfo1(gastos) {
     "Super/Kiosko/Bebida",
     "Transporte",
     "Entretenimiento",
-    "Salida Nocturna",
+    "Salida nocturna",
     "Gimnasia",
     "Auto/Nafta",
     "Estudios",
@@ -442,7 +442,7 @@ function getInfo1(gastos) {
     else if (gasto.categoria == "Transporte") categorias[2] += gasto.importe;
     else if (gasto.categoria == "Entretenimiento")
       categorias[3] += gasto.importe;
-    else if (gasto.categoria == "Salida Nocturna")
+    else if (gasto.categoria == "Salida nocturna")
       categorias[4] += gasto.importe;
     else if (gasto.categoria == "Gimnasia") categorias[5] += gasto.importe;
     else if (gasto.categoria == "Auto/Nafta") categorias[6] += gasto.importe;
@@ -587,7 +587,6 @@ async function generarGraficos(gastos) {
     },
   });
 
-  console.log(info3);
   const ctx3 = document.getElementById("graficoFondos").getContext("2d");
   new Chart(ctx3, {
     type: "line",
