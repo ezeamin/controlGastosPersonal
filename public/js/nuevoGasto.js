@@ -15,6 +15,7 @@ let formulario = document.getElementById("nuevoGasto");
 let invImp = document.getElementById("invalidImporte");
 document.getElementById("disponible").style.display = "none";
 
+document.getElementById("loadingScreen").style.display = "none";
 let info = await loadInfo(true);
 
 campoConcepto.addEventListener("blur", () => {
@@ -53,6 +54,13 @@ campoOrigen.addEventListener("blur", () => {
 campoPago.addEventListener("blur", () => {
   campoRequeridoSelect(campoPago);
 });
+document.getElementById("user").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
+
 formulario.addEventListener("submit", guardarGasto);
 
 function activarSaldoDisponible(){

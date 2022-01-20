@@ -26,6 +26,7 @@ let formulario1 = document.getElementById("formularioAgregarPago");
 let campoCuenta = document.getElementById("cuenta");
 let formulario2 = document.getElementById("formularioPagarPago");
 
+document.getElementById("loadingScreen").style.display = "none";
 let info = await loadInfo(false);
 let pagos;
 loadPagos().then(pagosC=>{
@@ -55,6 +56,12 @@ campoFecha.addEventListener("blur", () => {
         "La fecha no puede ser anterior a la actual";
     }
   }
+});
+document.getElementById("user").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
 });
 
 formulario1.addEventListener("submit", guardarPago);

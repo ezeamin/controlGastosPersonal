@@ -36,6 +36,7 @@
       <div class="spinner"></div>
       <p class="lead mt-5 loadingText">Contactando AFIP</p>
     </div>
+    <div id="loadingScreen"></div>
     <main class="container">
       <div class="my-5">
         <h1 class="display-1 text-center my-0">Inicio</h1>
@@ -53,17 +54,17 @@
         </h3>
       </div>
       <div class="botonesIndex mt-5">
-        <a href="pages/nuevoGasto.html" class="btn btn-outline-danger py-3 d-block"
-          >Nuevo gasto</a
+        <button class="btn btn-outline-danger py-3 d-block w-100" id="nuevoGasto"
+          >Nuevo gasto</button
         >
-        <a href="pages/tablas.html" class="btn btn-outline-warning my-4 py-3 d-block"
-          >Ver gastos</a
+        <button class="btn btn-outline-warning my-4 py-3 d-block w-100" id="tablas">
+          Ver gastos</button
         >
-        <a href="pages/deudas.html" class="btn btn-outline-primary my-4 py-3 d-block"
-          >Deudores</a
+        <button class="btn btn-outline-primary my-4 py-3 d-block w-100" id="deudas">
+          Deudores</button
         >
-        <a href="pages/proxPagos.html" class="btn btn-outline-success my-4 py-3 d-block"
-          >Proximos pagos</a
+        <button class="btn btn-outline-success my-4 py-3 d-block w-100" id="proxPagos">
+          Proximos pagos</button
         >
       </div>
     </main>

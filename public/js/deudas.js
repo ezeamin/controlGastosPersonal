@@ -18,6 +18,7 @@ import {
   cargarGasto
 } from "./DB.js";
 
+document.getElementById("loadingScreen").style.display = "none";
 let info = await loadInfo(false);
 let deudas;
 loadDeudas(false).then((deudasC) => {
@@ -67,6 +68,12 @@ campoOrigen.addEventListener("change", () => {
   } else {
     campoCuentaAgregar.disabled = false;
   }
+});
+document.getElementById("user").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
 });
 
 formularioNuevaDeuda.addEventListener("submit", agregarDeuda);

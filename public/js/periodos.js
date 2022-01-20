@@ -1,5 +1,6 @@
 import { loadInfo, loadOld } from "./DB.js";
 
+document.getElementById("loadingScreen").style.display = "none";
 loadOld().then(async (periodos) => {    
  if(periodos.length != 0){
     periodos.map((old, index) => {
@@ -8,6 +9,13 @@ loadOld().then(async (periodos) => {
     document.getElementById("datosVacios").style.display = "none";
   }
     await loadInfo(true);
+});
+
+document.getElementById("user").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
 });
 
 function crearElemento(old, index) {

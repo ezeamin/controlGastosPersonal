@@ -47,9 +47,9 @@ campoFiltroOrigen.addEventListener("change", () => {
   );
 });
 btnCargarMas.addEventListener("click", async () => {
-  document.getElementById("loadingScreen").style.display = "flex";
+  document.getElementById("loadingScreenTablas").style.display = "flex";
   await cargarGastos();
-  document.getElementById("loadingScreen").style.display = "none";
+  document.getElementById("loadingScreenTablas").style.display = "none";
 });
 
 window.addEventListener('scroll', function () {
@@ -59,15 +59,22 @@ window.addEventListener('scroll', function () {
   fab.classList.toggle('scrolling-active__fab', windowPosition);
 })
 
+document.getElementById("user").addEventListener("click", () => {
+  document.getElementById("loadingScreenTablas").style.display = "flex";
+});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreenTablas").style.display = "flex";
+});
+
 async function filtrarTabla(categoria, pago, origen) {
-  document.getElementById("loadingScreen").style.display = "flex";
+  document.getElementById("loadingScreenTablas").style.display = "flex";
   let listaFiltrada = await loadGastos(-2);
 
   if (categoria == 0 && origen == 0 && pago == 0) {
     limpiarTabla();
     max = 10;
     cargarGastos().then(() => {
-      document.getElementById("loadingScreen").style.display = "none";
+      document.getElementById("loadingScreenTablas").style.display = "none";
     });
     return;
   }
@@ -125,7 +132,7 @@ async function filtrarTabla(categoria, pago, origen) {
     listaFiltrada.forEach((itemGasto) => {
       crearFila(itemGasto);
     });
-    document.getElementById("loadingScreen").style.display = "none";
+    document.getElementById("loadingScreenTablas").style.display = "none";
   }
 }
 

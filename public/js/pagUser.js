@@ -40,6 +40,7 @@ let total,
   TD,
   ajena;
 
+document.getElementById("loadingScreen").style.display = "none";
 let info = await loadInfo(false);
 let anteriores = await loadOld();
 cargarGastos().then(() => {
@@ -87,6 +88,9 @@ botonAñadir.addEventListener("click", () => {
     "btn btn-outline-success mt-2";
 });
 botonModificarLimite.addEventListener("click", () => {});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
 // botonTrasferirDatos.addEventListener("click", () => {
 //   transferirDatos();
 // });

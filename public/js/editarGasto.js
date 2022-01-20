@@ -9,6 +9,7 @@ import {
   findGasto
 } from "./DB.js";
 
+document.getElementById("loadingScreen").style.display = "none";
 let campoConcepto = document.getElementById("concepto");
 let campoCategoria = document.getElementById("categoria");
 let campoImporte = document.getElementById("importe");
@@ -18,6 +19,12 @@ let campoComentario = document.getElementById("comentario");
 let formulario = document.getElementById("nuevoGasto");
 let invImp = document.getElementById("invalidImporte");
 document.getElementById("disponible").style.display = "none";
+document.getElementById("user").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
+document.getElementById("index").addEventListener("click", () => {
+  document.getElementById("loadingScreen").style.display = "flex";
+});
 
 let info = await loadInfo(false);
 let gasto;

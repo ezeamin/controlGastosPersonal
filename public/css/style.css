@@ -224,3 +224,7 @@ input,select,textarea{
   opacity: 1;
   cursor: pointer;
 }
+
+#loadingScreen{
+  display: none;
+}
