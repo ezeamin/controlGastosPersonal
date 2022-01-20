@@ -250,11 +250,10 @@ async function cancelarDeuda(e) {
 
     deudor.lista.splice(deudaIndex, 1);
 
-    await actualizarDeuda(deudor);
-
     if (deudor.lista.length == 0) {
       await removeFromDeudas(deudor);
     }
+    else await actualizarDeuda(deudor);
 
     agregarATabla(
       importe,

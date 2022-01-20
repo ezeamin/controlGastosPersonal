@@ -658,7 +658,7 @@ async function cargarTransferencia() {
 
   await actualizarInfo(info);
 
-  limpiarFormulario();
+  //limpiarFormulario();
 
   Swal.fire({
     title: "Transferencia realizada",
@@ -701,6 +701,12 @@ async function iniciarNuevoPeriodo() {
 
 async function guardarLimite(e) {
   e.preventDefault();
+
+  if(isNaN(campoLimite.value) || campoLimite.value == ""){
+    campoLimite.className = "form-control is-invalid";
+    return;
+  }
+
   document.getElementById("btnModificar").disabled = true;
 
   info.limite = parseFloat(campoLimite.value);

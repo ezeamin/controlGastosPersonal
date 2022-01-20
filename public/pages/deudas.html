@@ -10,7 +10,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     /> -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Control de gastos</title>
@@ -19,7 +19,10 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="box-shadow: 0 0 5px black">
+      <nav
+        class="navbar navbar-expand-lg navbar-dark bg-primary"
+        style="box-shadow: 0 0 5px black"
+      >
         <div class="container">
           <a class="navbar-brand" href="../index.html">Control de gastos</a>
           <a
@@ -50,7 +53,7 @@
       </div>
       <div id="tabla">
         <div class="table-responsive">
-          <table class="table mt-3 bg-light" style="border-radius: 2%;">
+          <table class="table mt-3 bg-light" style="border-radius: 2%">
             <thead>
               <tr>
                 <td class="colTablaColor"></td>
@@ -104,16 +107,18 @@
                   Seleccione una opcion
                 </div>
               </div>
-              <div class="form-check my-3 d-flex flex-row-reverse align-items-center justify-content-end">
-                  <label class="form-check-label mt-1" for="ignorar">
-                    No agregar
-                  </label>
-                  <input
+              <div
+                class="form-check my-3 d-flex flex-row-reverse align-items-center justify-content-end"
+              >
+                <label class="form-check-label mt-1" for="ignorar">
+                  No agregar
+                </label>
+                <input
                   class="form-check-input me-2"
                   type="checkbox"
                   value=""
                   id="ignorar"
-                  />
+                />
               </div>
               <div class="form-group my-2">
                 <label for="comentario">Comentario</label>
@@ -125,7 +130,11 @@
                 ></textarea>
               </div>
               <div class="text-end">
-                <button type="submit" id="btnConfirmar" class="btn btn-outline-danger mt-2">
+                <button
+                  type="submit"
+                  id="btnConfirmar"
+                  class="btn btn-outline-danger mt-2"
+                >
                   Confirmar
                 </button>
               </div>
@@ -179,9 +188,7 @@
                 </div>
               </div>
               <div class="form-group my-2">
-                <label for="origen"
-                  >Origen<span class="text-danger">*</span></label
-                >
+                <label for="origen">Origen</label>
                 <select class="form-select modal2" id="origen">
                   <option value="0">Seleccione</option>
                   <option value="Plata propia">Plata propia</option>
@@ -214,7 +221,11 @@
                 </div>
               </div>
               <div class="text-end">
-                <button type="submit" id="btnGuardar" class="btn btn-outline-primary mt-2">
+                <button
+                  type="submit"
+                  id="btnGuardar"
+                  class="btn btn-outline-primary mt-2"
+                >
                   Agregar
                 </button>
               </div>
