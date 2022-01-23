@@ -102,9 +102,12 @@ router.put("/gastosFind/:codigo", async (req, res) => {
 router.put("/deudasC/:codigo", async (req, res) => {
   const codigo = req.params["codigo"];
 
-  let deuda = req.body;
+  let deuda = {
+    lista: req.body.lista,
+    total: req.body.total
+  }
 
-  await DbDeudas.findOneAndUpdate({ codigo: codigo }, deuda);
+  await DbDeudas.findOneAndUpdate({ codigoDeudor: codigo }, deuda);
 
   res.status(200).json({ code: 200 });
 });
