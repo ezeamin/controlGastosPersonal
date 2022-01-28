@@ -153,12 +153,6 @@ async function agregarATabla() {
   await cargarGasto(gasto);
 }
 
-function limpiarFormulario() {
-  campoImporte.value = "";
-  campoCuenta.value = "0";
-  campoComentario.value = "";
-}
-
 async function cargarGastos() {
   const gastos = await loadGastos(-1);
 
@@ -210,18 +204,33 @@ async function cargarGastos() {
 
   let totalPropioPorcentaje;
   let totalPapasPorcentaje;
+  let diferenciaPorcentaje = 0;
   if (total != 0) {
     totalPropioPorcentaje = Math.round((totalPropio * 100) / total);
     totalPapasPorcentaje = Math.round((totalPapas * 100) / total);
+
+    if (totalPapasPorcentaje + totalPropioPorcentaje !== 100) {
+      diferenciaPorcentaje =
+        100 - (totalPapasPorcentaje + totalPropioPorcentaje);
+    }
   }
 
   document.getElementById("totalGastos").innerHTML = "$" + total;
   document.getElementById("totalGastos2").innerHTML = "$" + total;
   document.getElementById("totalGrafico").innerHTML = "$" + total;
-  if (total != 0)
+  document.getElementById("totalGraficoPropio").innerHTML = "$" + totalPropio;
+  if (total != 0 && diferenciaPorcentaje === 0) {
     document.getElementById("porcentajes").innerHTML =
       totalPropioPorcentaje + "% / " + totalPapasPorcentaje + "%";
-  else document.getElementById("porcentajes").innerHTML = "0% / 0%";
+  } else if (total != 0 && diferenciaPorcentaje !== 0) {
+    document.getElementById("porcentajes").innerHTML =
+      totalPropioPorcentaje +
+      "% / " +
+      totalPapasPorcentaje +
+      "% / " +
+      diferenciaPorcentaje +
+      "%";
+  } else document.getElementById("porcentajes").innerHTML = "0% / 0%";
   document.getElementById("totalPropio").innerHTML = "$" + totalPropio;
 
   document.getElementById("name").innerHTML = info.nombre;
@@ -474,7 +483,47 @@ function getInfo1(gastos) {
   return [nombres, categorias, colores];
 }
 
-async function getInfo2() {
+function getInfo2(gastos) {
+  let categorias = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  gastos.forEach((gasto) => {
+    if(gasto.origen === "Plata propia"){
+      if (gasto.categoria == "Comida/Merienda") categorias[0] += gasto.importe;
+      else if (gasto.categoria == "Super/Kiosko/Bebida")
+        categorias[1] += gasto.importe;
+      else if (gasto.categoria == "Transporte") categorias[2] += gasto.importe;
+      else if (gasto.categoria == "Entretenimiento")
+        categorias[3] += gasto.importe;
+      else if (gasto.categoria == "Salida nocturna")
+        categorias[4] += gasto.importe;
+      else if (gasto.categoria == "Gimnasia") categorias[5] += gasto.importe;
+      else if (gasto.categoria == "Auto/Nafta") categorias[6] += gasto.importe;
+      else if (gasto.categoria == "Estudios") categorias[7] += gasto.importe;
+      else if (gasto.categoria == "Salud") categorias[8] += gasto.importe;
+      else if (gasto.categoria == "Pago programado")
+        categorias[9] += gasto.importe;
+      else categorias[10] += gasto.importe;
+    }
+  });
+
+  let colores = [
+    "#fff87f",
+    "#4fa8fb",
+    "#f86f6f",
+    "#ff35c2",
+    "#66d7d1",
+    "#afcbff",
+    "#ffcbc1",
+    "#aff8db",
+    "#9ad2e6",
+    "#c585ed",
+    "#b5c5d7",
+  ];
+
+  return [categorias, colores];
+}
+
+async function getInfo3() {
   let totalAnteriores = anteriores.map((periodo) => {
     return periodo.stats.total;
   });
@@ -514,7 +563,7 @@ async function getInfo2() {
   return [mesesHastaHoy, totalAnteriores, totalAnterioresPropio];
 }
 
-async function getInfo3() {
+async function getInfo4() {
   let inicialEfectivoAnteriores =
     anteriores.map((periodo) => {
       return periodo.stats.iniciales.efectivo;
@@ -542,8 +591,9 @@ async function generarGraficos(gastos) {
   });
 
   const info1 = getInfo1(gastos);
-  const info2 = await getInfo2(gastos);
+  const info2 = getInfo2(gastos);
   const info3 = await getInfo3(gastos);
+  const info4 = await getInfo4(gastos);
 
   const ctx = document.getElementById("graficoDonut").getContext("2d");
   new Chart(ctx, {
@@ -562,20 +612,37 @@ async function generarGraficos(gastos) {
     },
   });
 
-  const ctx2 = document.getElementById("graficoGastos").getContext("2d");
+  const ctx2 = document.getElementById("graficoDonutPropio").getContext("2d");
   new Chart(ctx2, {
+    type: "doughnut",
+    data: {
+      labels: info1[0],
+      datasets: [
+        {
+          data: info2[0],
+          backgroundColor: info2[1],
+        },
+      ],
+    },
+    options: {
+      resonsive: true,
+    },
+  });
+
+  const ctx3 = document.getElementById("graficoGastos").getContext("2d");
+  new Chart(ctx3, {
     type: "line",
     data: {
-      labels: info2[0],
+      labels: info3[0],
       datasets: [
         {
           label: "Total",
-          data: info2[1],
+          data: info3[1],
           backgroundColor: "#4fa8fb",
         },
         {
           label: "Total propio",
-          data: info2[2],
+          data: info3[2],
           backgroundColor: "#f86f6f",
         },
       ],
@@ -591,25 +658,25 @@ async function generarGraficos(gastos) {
     },
   });
 
-  const ctx3 = document.getElementById("graficoFondos").getContext("2d");
-  new Chart(ctx3, {
+  const ctx4 = document.getElementById("graficoFondos").getContext("2d");
+  new Chart(ctx4, {
     type: "line",
     data: {
-      labels: info2[0],
+      labels: info3[0],
       datasets: [
         {
           label: "Efectivo",
-          data: info3[0],
+          data: info4[0],
           backgroundColor: "#5dc92e",
         },
         {
           label: "TD",
-          data: info3[1],
+          data: info4[1],
           backgroundColor: "#c585ed",
         },
         {
           label: "Total",
-          data: info3[2],
+          data: info4[2],
           backgroundColor: "#afcbff",
         },
       ],
@@ -706,7 +773,7 @@ async function iniciarNuevoPeriodo() {
 async function guardarLimite(e) {
   e.preventDefault();
 
-  if(isNaN(campoLimite.value) || campoLimite.value == ""){
+  if (isNaN(campoLimite.value) || campoLimite.value == "") {
     campoLimite.className = "form-control is-invalid";
     return;
   }

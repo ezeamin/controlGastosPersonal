@@ -46,7 +46,7 @@ hr{
   transition: all 0.25s ease-out;
 }
 
-#loadingScreen {
+#loadingScreen,#loadingScreenTablas {
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -223,8 +223,4 @@ input,select,textarea{
 .scrolling-active__fab {
   opacity: 1;
   cursor: pointer;
-}
-
-#loadingScreen{
-  display: none;
 }
