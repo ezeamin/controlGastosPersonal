@@ -14,6 +14,7 @@ const statsSchema = new Schema({
   promedioDiarioPropio: Number,
   porcentajePropio: Number,
   porcentajePapas: Number,
+  porcentajeAjeno: Number,
   iniciales: {
     efectivo: Number,
     TD: Number,

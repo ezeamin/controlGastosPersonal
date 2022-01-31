@@ -106,15 +106,6 @@ async function cargarPagos() {
   });
 }
 
-function limpiarFormulario() {
-  campoConcepto.value = "";
-  campoImporte.value = "";
-  campoComentario.value = "";
-  campoFecha.value = "";
-  document.getElementById("fechaIncorrecta").innerHTML =
-    "Ingrese un parametro valido";
-}
-
 async function cargarDatosTabla() {
   let total = 0;
   let tabla = document.getElementById("tablaPagos");
@@ -190,7 +181,7 @@ function fechaCercana(fechaVencimiento) {
 
   let diferencia = Math.floor(
     (fechaFinalDate.getTime() - fechaInicial.getTime()) / (1000 * 3600 * 24)
-  );
+  ) + 1;
 
   return diferencia;
 }

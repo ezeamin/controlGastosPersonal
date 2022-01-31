@@ -223,6 +223,7 @@ router.post("/transferOldData", async (req, res) => {
       promedioDiarioPropio: Math.round(body.totalPropio / body.dias),
       porcentajePropio: Math.round((body.totalPropio / body.total) * 100),
       porcentajePapas: Math.round((body.totalPapas / body.total) * 100),
+      porcentajeAjeno: 100 - (Math.round((body.totalPropio / body.total) * 100) + Math.round((body.totalPapas / body.total) * 100)),
       iniciales: {
         efectivo: info.iniciales[0],
         TD: info.iniciales[1],
