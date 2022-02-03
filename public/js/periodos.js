@@ -52,6 +52,7 @@ function crearElemento(old, index) {
                     <li>Diario propio: $ ${old.stats.promedioDiarioPropio}</li>
                     <li>Porcentaje propio: ${old.stats.porcentajePropio}%</li>
                     <li>Porcentaje papas: ${old.stats.porcentajePapas}%</li>
+                    <li>Porcentaje ajeno: ${old.stats.porcentajeAjeno}%</li>
                 </ul>
                 <p>Valores Iniciales / Finales</p>
                 <ul>

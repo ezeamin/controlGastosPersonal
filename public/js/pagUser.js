@@ -291,6 +291,8 @@ async function cargarGastos() {
       (fechaFinalPeriodo.getTime() - fechaFinal.getTime()) / (1000 * 3600 * 24)
     ) + 1;
 
+  let diasTotales = diferencia + diasRestantes - 1;
+
   if (diasRestantes != 1)
     document.getElementById("diasRestantes").innerHTML =
       "Quedan " + diasRestantes + " días";
@@ -305,8 +307,8 @@ async function cargarGastos() {
   txtPrimerIngreso.innerHTML = info.fecha + " - " + fechaFinalPeriodoFormat;
   document.getElementById("dias").innerHTML = diferencia;
 
-  let promedio = Math.round(total / diferencia);
-  let promedioPropio = Math.round(totalPropio / diferencia);
+  let promedio = Math.round(total / diasTotales);
+  let promedioPropio = Math.round(totalPropio / diasTotales);
   document.getElementById("promedio").innerHTML = "$" + promedio;
   document.getElementById("promedioPropio").innerHTML = "$" + promedioPropio;
 
@@ -336,10 +338,8 @@ async function cargarGastos() {
       ((promedioAnterior - promedio) / promedioAnterior) * 100
     );
     let porcentajeAnteriorPropio = Math.round(
-      ((promedioAnteriorPropio - promedioPropio) / promedioPropio) * 100
+      ((promedioAnteriorPropio - promedioPropio) / promedioAnteriorPropio) * 100
     );
-
-    console.log(promedioAnterior, porcentajeAnterior);
 
     if (porcentajeAnterior > 0) {
       simbolo = "&#9660";
@@ -750,7 +750,7 @@ async function iniciarNuevoPeriodo() {
     total,
     totalPropio,
     totalPapas,
-    diferencia,
+    diferencia - 1, //dias
     efectivoPropio,
     efectivoPapas,
     TC,
