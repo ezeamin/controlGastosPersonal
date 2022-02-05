@@ -38,6 +38,9 @@ let total,
   TC,
   TCPropio,
   TD,
+  otro,
+  otroPapas,
+  otroPropio,
   ajena;
 
 document.getElementById("loadingScreen").style.display = "none";
@@ -162,6 +165,9 @@ async function cargarGastos() {
   TCPropio = 0;
   TD = 0;
   ajena = 0;
+  otro = 0;
+  otroPropio = 0;
+  otroPapas = 0;
   let debo = 0;
   let aFavor = 0;
 
@@ -178,6 +184,14 @@ async function cargarGastos() {
       TCPropio += parseFloat(gasto.importe);
     else if (gasto.pago == "TD" && gasto.categoria != "Fondeo")
       TD += parseFloat(gasto.importe);
+    else if (gasto.pago == "Otro"){
+      otro += parseFloat(gasto.importe);
+      if(gasto.origen == "Plata propia")
+        otroPropio += parseFloat(gasto.importe);
+      else if (gasto.origen == "Plata papas")
+        otroPapas += parseFloat(gasto.importe);
+
+    }
     else if (gasto.origen == "Plata ajena") ajena += parseFloat(gasto.importe);
 
     if (gasto.debo) debo += parseFloat(gasto.importe);
@@ -195,12 +209,13 @@ async function cargarGastos() {
   document.getElementById("efectivoPapas").innerHTML = "$" + efectivoPapas;
   document.getElementById("TC").innerHTML = "$" + TC;
   document.getElementById("TD").innerHTML = "$" + TD;
+  document.getElementById("otro").innerHTML = "$" + otro;
   document.getElementById("debes").innerHTML = "$" + debo;
   document.getElementById("aFavor").innerHTML = "$" + aFavor;
 
-  total = efectivoPropio + efectivoPapas + TC + TD + ajena;
-  totalPropio = efectivoPropio + TD + TCPropio;
-  totalPapas = efectivoPapas + (TC - TCPropio);
+  total = efectivoPropio + efectivoPapas + TC + TD + ajena + otro;
+  totalPropio = efectivoPropio + TD + TCPropio + otroPropio;
+  totalPapas = efectivoPapas + (TC - TCPropio) + otroPapas;
 
   let totalPropioPorcentaje;
   let totalPapasPorcentaje;
@@ -755,7 +770,10 @@ async function iniciarNuevoPeriodo() {
     efectivoPapas,
     TC,
     TCPropio,
-    TD
+    TD,
+    otro,
+    otroPropio,
+    otroPapas
   );
 
   document.getElementById("reset").disabled = false;

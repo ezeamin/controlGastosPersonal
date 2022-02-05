@@ -231,13 +231,13 @@ export async function deletePago(codigo) {
   });
 }
 
-export async function transferOldData(total,totalPropio,totalPapas,dias,efectivoPropio,efectivoPapas,TC,TCPropio,TD){
+export async function transferOldData(total,totalPropio,totalPapas,dias,efectivoPropio,efectivoPapas,TC,TCPropio,TD,otro,otroPropio,otroPapas){
   await fetch(`/transferOldData`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({total,totalPropio,totalPapas,dias,efectivoPropio,efectivoPapas,TC,TCPropio,TD}),
+    body: JSON.stringify({total,totalPropio,totalPapas,dias,efectivoPropio,efectivoPapas,TC,TCPropio,TD,otro,otroPropio,otroPapas}),
   });
 }
 
