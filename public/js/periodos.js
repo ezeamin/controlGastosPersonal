@@ -33,6 +33,7 @@ function crearElemento(old, index) {
                 <p>Dias transcurridos: ${old.dias}</p>
                 <p>Gastos realizados: ${old.gastos.length}</p>
                 <p>Total gastado: $ ${old.stats.total}</p>
+                <p>Total gastado propio: $ ${old.stats.totalPropio}</p>
                 <ul>
                     <li>Efectivo propio: $ ${
                       old.stats.gastos.efectivoPropio
@@ -45,6 +46,8 @@ function crearElemento(old, index) {
                       old.stats.gastos.TCPropio
                     }</li>
                     <li>Tarjeta de débito: $ ${old.stats.gastos.TD}</li>
+                    <li>Otros: $ ${old.stats.gastos.otros}</li>
+                    <li>Otros propio: $ ${old.stats.gastos.otrosPropio}</li>
                 </ul>
                 <p>Promedios</p>
                 <ul>

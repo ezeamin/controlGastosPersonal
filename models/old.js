@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const statsSchema = new Schema({
   total: Number,
+  totalPropio: Number,
   gastos: {
     efectivoPropio: Number,
     efectivoPapas: Number,
@@ -42,6 +43,7 @@ const gastosSchema = new Schema({
 });
 
 const oldSchema = new Schema({
+  codigo: String,
   fechaInicio: String,
   fechaFin: String,
   dias: Number,

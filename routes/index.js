@@ -206,12 +206,16 @@ router.post("/transferOldData", async (req, res) => {
   if(month < 10) month = "0" + month;
   date=`${day}/${month}/${year}`;
 
+  let cod = info.fecha.split("/")[0] + info.fecha.split("/")[1] + info.fecha.split("/")[2];
+
   let Schema = {
+    codigo: cod,
     fechaInicio: info.fecha,
     fechaFin: date,
     dias: body.dias,
     stats: {
       total: body.total,
+      totalPropio: body.totalPropio,
       gastos: {
         efectivoPropio: body.efectivoPropio,
         efectivoPapas: body.efectivoPapas,
