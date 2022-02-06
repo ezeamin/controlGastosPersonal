@@ -46,8 +46,8 @@ function crearElemento(old, index) {
                       old.stats.gastos.TCPropio
                     }</li>
                     <li>Tarjeta de débito: $ ${old.stats.gastos.TD}</li>
-                    <li>Otros: $ ${old.stats.gastos.otros}</li>
-                    <li>Otros propio: $ ${old.stats.gastos.otrosPropio}</li>
+                    <li>Otro: $ ${old.stats.gastos.otro}</li>
+                    <li>Otro propio: $ ${old.stats.gastos.otroPropio}</li>
                 </ul>
                 <p>Promedios</p>
                 <ul>
