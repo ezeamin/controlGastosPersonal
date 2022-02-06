@@ -66,6 +66,7 @@ function crearElemento(old, index) {
     old.stats.finales.TD
   }</li>
                 </ul>
+                <a class="btn btn-outline-primary w-100" href="/pages/tablas.html?${old.codigo}">Ver gastos</a>
             </div>
         </div>
     </div>`;

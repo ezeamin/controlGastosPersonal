@@ -73,6 +73,31 @@ router.get("/gastos/:min", async (req, res) => {
   res.status(200).json(gastos);
 });
 
+const comparar = (a, b) => {
+  if (a.mongoDate >= b.mongoDate) {
+    return -1;
+  } else if (a.mongoDate < b.mongoDate) {
+    return 1;
+  }
+};
+
+router.get("/gastos/:min/:cod", async (req, res) => {
+  let min = req.params["min"];
+  let cod = req.params["cod"];
+
+  let gastos;
+  if (min == -1) {
+    gastos = (await DbOld.findOne({ codigo: cod })).gastos;
+  } else if (min == -2) {
+    gastos = (await DbOld.findOne({ codigo: cod })).gastos.sort((a, b) => comparar(a, b))
+  } else {
+    gastos = (await DbOld.findOne({ codigo: cod })).gastos.sort((a, b) => comparar(a, b))
+      .slice(min, min + 10).splice(0, 10);
+  }
+
+  res.status(200).json(gastos);
+});
+
 router.get("/gastosFind/:cod", async (req, res) => {
   let cod = req.params["cod"];
 
@@ -86,6 +111,17 @@ router.get("/gastosLength/:min", async (req, res) => {
 
   const length = (await DbGastos.countDocuments({})) - parseInt(min);
 
+  res.status(200).json({ length });
+});
+
+router.get("/gastosLength/:min/:cod", async (req, res) => {
+  let min = req.params["min"];
+  let cod = req.params["cod"];
+
+  const length =
+    (await DbOld.findOne({ codigo: cod })).gastos.length - parseInt(min);
+
+    console.log(length);
   res.status(200).json({ length });
 });
 
@@ -104,8 +140,8 @@ router.put("/deudasC/:codigo", async (req, res) => {
 
   let deuda = {
     lista: req.body.lista,
-    total: req.body.total
-  }
+    total: req.body.total,
+  };
 
   await DbDeudas.findOneAndUpdate({ codigoDeudor: codigo }, deuda);
 
@@ -196,17 +232,20 @@ router.post("/transferOldData", async (req, res) => {
   const gastos = await DbGastos.find({}).sort({ mongoDate: -1 });
   const info = await DbInfo.findOne({});
 
-  let date = new Date()
+  let date = new Date();
 
-  let day = date.getDate()
-  let month = date.getMonth() + 1
-  let year = date.getFullYear()
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
 
-  if(day < 10) day = "0" + day;
-  if(month < 10) month = "0" + month;
-  date=`${day}/${month}/${year}`;
+  if (day < 10) day = "0" + day;
+  if (month < 10) month = "0" + month;
+  date = `${day}/${month}/${year}`;
 
-  let cod = info.fecha.split("/")[0] + info.fecha.split("/")[1] + info.fecha.split("/")[2];
+  let cod =
+    info.fecha.split("/")[0] +
+    info.fecha.split("/")[1] +
+    info.fecha.split("/")[2];
 
   let Schema = {
     codigo: cod,
@@ -230,7 +269,10 @@ router.post("/transferOldData", async (req, res) => {
       promedioDiarioPropio: Math.round(body.totalPropio / body.dias),
       porcentajePropio: Math.round((body.totalPropio / body.total) * 100),
       porcentajePapas: Math.round((body.totalPapas / body.total) * 100),
-      porcentajeAjeno: 100 - (Math.round((body.totalPropio / body.total) * 100) + Math.round((body.totalPapas / body.total) * 100)),
+      porcentajeAjeno:
+        100 -
+        (Math.round((body.totalPropio / body.total) * 100) +
+          Math.round((body.totalPapas / body.total) * 100)),
       iniciales: {
         efectivo: info.iniciales[0],
         TD: info.iniciales[1],
@@ -320,7 +362,7 @@ const transferir = (datos) => {
     let time = timeSplit[1].split(":");
     let mongoDate = new Date(
       date[2],
-      date[1]-1,
+      date[1] - 1,
       date[0],
       time[0],
       time[1],

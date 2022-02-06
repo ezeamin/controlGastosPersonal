@@ -157,7 +157,7 @@ async function agregarATabla() {
 }
 
 async function cargarGastos() {
-  const gastos = await loadGastos(-1);
+  const gastos = await loadGastos(-1,"0");
 
   efectivoPropio = 0;
   efectivoPapas = 0;

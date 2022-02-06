@@ -14,11 +14,19 @@ let campoFiltroPago = document.getElementById("filtroPago");
 let campoOrigen = document.getElementById("origen");
 let btnCargarMas = document.getElementById("cargarMas");
 
+let codigo;
+if (window.location.href.includes("?")) {
+  codigo = window.location.href.split("?")[1];
+} else codigo = "0";
+
 let max = 10;
 let info = await loadInfo(false);
 cargarGastos().then(() => {
   document.getElementById("loadingSpinner").style.opacity = "0";
-  setTimeout(()=>document.getElementById("loadingSpinner").style.display = "none",350);
+  setTimeout(
+    () => (document.getElementById("loadingSpinner").style.display = "none"),
+    350
+  );
 });
 
 campoOrigen.addEventListener("blur", () => {
@@ -52,12 +60,12 @@ btnCargarMas.addEventListener("click", async () => {
   document.getElementById("loadingScreenTablas").style.display = "none";
 });
 
-window.addEventListener('scroll', function () {
-  let fab = document.getElementsByClassName('fab')[0];
+window.addEventListener("scroll", function () {
+  let fab = document.getElementsByClassName("fab")[0];
   let windowPosition = window.scrollY > 400;
 
-  fab.classList.toggle('scrolling-active__fab', windowPosition);
-})
+  fab.classList.toggle("scrolling-active__fab", windowPosition);
+});
 
 document.getElementById("user").addEventListener("click", () => {
   document.getElementById("loadingScreenTablas").style.display = "flex";
@@ -68,7 +76,7 @@ document.getElementById("index").addEventListener("click", () => {
 
 async function filtrarTabla(categoria, pago, origen) {
   document.getElementById("loadingScreenTablas").style.display = "flex";
-  let listaFiltrada = await loadGastos(-2);
+  let listaFiltrada = await loadGastos(-2, codigo);
 
   if (categoria == 0 && origen == 0 && pago == 0) {
     limpiarTabla();
@@ -144,16 +152,15 @@ function limpiarTabla() {
 //mostrar fondeo de cuenta
 
 async function cargarGastos() {
-  const length = await loadGastosLength(max - 10);
+  const length = await loadGastosLength(max - 10, codigo);
 
-  if(length == 0 && max==10){
+  if (length == 0 && max == 10) {
     document.getElementById("tabla").style.display = "none";
     return;
-  }
-  else document.getElementById("datosVacios").style.display = "none";
+  } else document.getElementById("datosVacios").style.display = "none";
 
   if (length != 0) {
-    let gastos = await loadGastos(max - 10);
+    let gastos = await loadGastos(max - 10, codigo);
     if (length > 10) btnCargarMas.style.display = "block";
     else btnCargarMas.style.display = "none";
 
@@ -171,67 +178,135 @@ function crearFila(gasto) {
   let debo = "No";
   if (gasto.debo) debo = "Si";
 
-  if (gasto.categoria == "Fondeo" || gasto.categoria == "Pago de deuda" || gasto.categoria == "Pago programado") {
-    fila.innerHTML += `
-            <tr>
-            <td id="cat_${gasto.codigo}"> </td>
-              <th class="fond_${gasto.codigo}">${gasto.categoria}</th>
-              <td class="fond_${gasto.codigo}">${gasto.fecha}</td>
-              <td class="fond_${gasto.codigo}">${gasto.concepto}</td>
-              <td class="fond_${gasto.codigo}">${gasto.origen}</td>
-              <td class="fond_${gasto.codigo}">${gasto.pago}</td>
-              <td class="fond_${gasto.codigo}">${gasto.comentario}</td>
-              <td class="fond_${gasto.codigo}">${debo}</td>
-              <td class="fond_${gasto.codigo}">$ ${gasto.importe}</td>
-              <td class="fond_${gasto.codigo}"> </td>
-          </tr>`;
+  if (codigo == "0") {
+    if (
+      gasto.categoria == "Fondeo" ||
+      gasto.categoria == "Pago de deuda" ||
+      gasto.categoria == "Pago programado"
+    ) {
+      fila.innerHTML += `
+              <tr>
+              <td id="cat_${gasto.codigo}"> </td>
+                <th class="fond_${gasto.codigo}">${gasto.categoria}</th>
+                <td class="fond_${gasto.codigo}">${gasto.fecha}</td>
+                <td class="fond_${gasto.codigo}">${gasto.concepto}</td>
+                <td class="fond_${gasto.codigo}">${gasto.origen}</td>
+                <td class="fond_${gasto.codigo}">${gasto.pago}</td>
+                <td class="fond_${gasto.codigo}">${gasto.comentario}</td>
+                <td class="fond_${gasto.codigo}">${debo}</td>
+                <td class="fond_${gasto.codigo}">$ ${gasto.importe}</td>
+                <td class="fond_${gasto.codigo}"> </td>
+            </tr>`;
 
-    if (gasto.categoria == "Fondeo") {
-      let elementos = document.getElementsByClassName(`fond_${gasto.codigo}`);
+      if (gasto.categoria == "Fondeo") {
+        let elementos = document.getElementsByClassName(`fond_${gasto.codigo}`);
+
+        for (let i = 0; i < elementos.length; i++) {
+          elementos[i].style.backgroundColor = "#c6e5b1";
+        }
+      }
+    } else if (debo == "Si") {
+      fila.innerHTML += `
+              <tr>
+                <td id="cat_${gasto.codigo}"> </td>
+                <th class="deb_${gasto.codigo}">${gasto.categoria}</th>
+                <td class="deb_${gasto.codigo}">${gasto.fecha}</td>
+                <td class="deb_${gasto.codigo}">${gasto.concepto}</td>
+                <td class="deb_${gasto.codigo}">${gasto.origen}</td>
+                <td class="deb_${gasto.codigo}">${gasto.pago}</td>
+                <td class="deb_${gasto.codigo}">${gasto.comentario}</td>
+                <td class="deb_${gasto.codigo}">${debo}</td>
+                <td class="deb_${gasto.codigo}">$ ${gasto.importe}</td>
+                <td class="deb_${gasto.codigo}">
+                  <button class="btn btn-outline-warning btn-tabla my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
+                  <button class="btn btn-outline-danger btn-tabla my-1" data-bs-toggle="modal" data-bs-target="#modalCancelarDeuda" onclick="prepararDevolverDeuda('${gasto.codigo}')">Cancelar deuda</button>
+                </td>
+            </tr>`;
+
+      let elementos = document.getElementsByClassName(`deb_${gasto.codigo}`);
 
       for (let i = 0; i < elementos.length; i++) {
-        elementos[i].style.backgroundColor = "#c6e5b1";
+        elementos[i].style.backgroundColor = "#FAA0A0";
       }
-    }
-  } else if (debo == "Si") {
-    fila.innerHTML += `
-            <tr>
-              <td id="cat_${gasto.codigo}"> </td>
-              <th class="deb_${gasto.codigo}">${gasto.categoria}</th>
-              <td class="deb_${gasto.codigo}">${gasto.fecha}</td>
-              <td class="deb_${gasto.codigo}">${gasto.concepto}</td>
-              <td class="deb_${gasto.codigo}">${gasto.origen}</td>
-              <td class="deb_${gasto.codigo}">${gasto.pago}</td>
-              <td class="deb_${gasto.codigo}">${gasto.comentario}</td>
-              <td class="deb_${gasto.codigo}">${debo}</td>
-              <td class="deb_${gasto.codigo}">$ ${gasto.importe}</td>
-              <td class="deb_${gasto.codigo}">
-                <button class="btn btn-outline-warning btn-tabla my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
-                <button class="btn btn-outline-danger btn-tabla my-1" data-bs-toggle="modal" data-bs-target="#modalCancelarDeuda" onclick="prepararDevolverDeuda('${gasto.codigo}')">Cancelar deuda</button>
-              </td>
-          </tr>`;
-
-    let elementos = document.getElementsByClassName(`deb_${gasto.codigo}`);
-
-    for (let i = 0; i < elementos.length; i++) {
-      elementos[i].style.backgroundColor = "#FAA0A0";
+    } else {
+      fila.innerHTML += `
+              <tr>
+                <td id="cat_${gasto.codigo}"> </td>
+                <th>${gasto.categoria}</th>
+                <td>${gasto.fecha}</td>
+                <td>${gasto.concepto}</td>
+                <td>${gasto.origen}</td>
+                <td>${gasto.pago}</td>
+                <td>${gasto.comentario}</td>
+                <td>${debo}</td>
+                <td>$ ${gasto.importe}</td>
+                <td>
+                  <button class="btn btn-outline-warning btn-tabla my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
+                </td>
+            </tr>`;
     }
   } else {
-    fila.innerHTML += `
-            <tr>
-              <td id="cat_${gasto.codigo}"> </td>
-              <th>${gasto.categoria}</th>
-              <td>${gasto.fecha}</td>
-              <td>${gasto.concepto}</td>
-              <td>${gasto.origen}</td>
-              <td>${gasto.pago}</td>
-              <td>${gasto.comentario}</td>
-              <td>${debo}</td>
-              <td>$ ${gasto.importe}</td>
-              <td>
-                <button class="btn btn-outline-warning btn-tabla my-1" onclick="prepararEdicionGasto('${gasto.codigo}')">Editar</button>
-              </td>
-          </tr>`;
+    if (
+      gasto.categoria == "Fondeo" ||
+      gasto.categoria == "Pago de deuda" ||
+      gasto.categoria == "Pago programado"
+    ) {
+      fila.innerHTML += `
+                <tr>
+                <td id="cat_${gasto.codigo}"> </td>
+                  <th class="fond_${gasto.codigo}">${gasto.categoria}</th>
+                  <td class="fond_${gasto.codigo}">${gasto.fecha}</td>
+                  <td class="fond_${gasto.codigo}">${gasto.concepto}</td>
+                  <td class="fond_${gasto.codigo}">${gasto.origen}</td>
+                  <td class="fond_${gasto.codigo}">${gasto.pago}</td>
+                  <td class="fond_${gasto.codigo}">${gasto.comentario}</td>
+                  <td class="fond_${gasto.codigo}">${debo}</td>
+                  <td class="fond_${gasto.codigo}">$ ${gasto.importe}</td>
+                  <td class="fond_${gasto.codigo}"> </td>
+              </tr>`;
+
+      if (gasto.categoria == "Fondeo") {
+        let elementos = document.getElementsByClassName(`fond_${gasto.codigo}`);
+
+        for (let i = 0; i < elementos.length; i++) {
+          elementos[i].style.backgroundColor = "#c6e5b1";
+        }
+      }
+    } else if (debo == "Si") {
+      fila.innerHTML += `
+                <tr>
+                  <td id="cat_${gasto.codigo}"> </td>
+                  <th class="deb_${gasto.codigo}">${gasto.categoria}</th>
+                  <td class="deb_${gasto.codigo}">${gasto.fecha}</td>
+                  <td class="deb_${gasto.codigo}">${gasto.concepto}</td>
+                  <td class="deb_${gasto.codigo}">${gasto.origen}</td>
+                  <td class="deb_${gasto.codigo}">${gasto.pago}</td>
+                  <td class="deb_${gasto.codigo}">${gasto.comentario}</td>
+                  <td class="deb_${gasto.codigo}">${debo}</td>
+                  <td class="deb_${gasto.codigo}">$ ${gasto.importe}</td>
+                  <td class="deb_${gasto.codigo}"></td>
+              </tr>`;
+
+      let elementos = document.getElementsByClassName(`deb_${gasto.codigo}`);
+
+      for (let i = 0; i < elementos.length; i++) {
+        elementos[i].style.backgroundColor = "#FAA0A0";
+      }
+    } else {
+      fila.innerHTML += `
+                <tr>
+                  <td id="cat_${gasto.codigo}"> </td>
+                  <th>${gasto.categoria}</th>
+                  <td>${gasto.fecha}</td>
+                  <td>${gasto.concepto}</td>
+                  <td>${gasto.origen}</td>
+                  <td>${gasto.pago}</td>
+                  <td>${gasto.comentario}</td>
+                  <td>${debo}</td>
+                  <td>$ ${gasto.importe}</td>
+                  <td></td>
+              </tr>`;
+    }
   }
 
   let cat = document.getElementById(`cat_${gasto.codigo}`);

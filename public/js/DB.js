@@ -93,28 +93,52 @@ export async function actualizarGasto(gasto) {
   });
 }
 
-export async function loadGastos(min) {
-  const res = await fetch(`/gastos/${min}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const gastos = await res.json();
+export async function loadGastos(min,cod) {
+  let gastos;
+  if(cod=="0"){
+    const res = await fetch(`/gastos/${min}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    gastos = await res.json();
+  }
+  else{
+    const res = await fetch(`/gastos/${min}/${cod}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    gastos = await res.json();
+  }
 
   if (gastos == null) return [];
 
   return gastos;
 }
 
-export async function loadGastosLength(min) {
-  const res = await fetch(`/gastosLength/${min}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const length = await res.json();
+export async function loadGastosLength(min,cod) {
+  let length;
+
+  if(cod=="0"){
+    const res = await fetch(`/gastosLength/${min}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    length = await res.json();
+  } else{
+    const res = await fetch(`/gastosLength/${min}/${cod}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    length = await res.json();
+  }
 
   return length.length;
 }
