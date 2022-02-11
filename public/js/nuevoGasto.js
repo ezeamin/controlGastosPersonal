@@ -93,13 +93,15 @@ function guardarGasto(e) {
 
     switch (campoPago.value) {
       case "Efectivo": {
-        let saldoDisp = parseFloat(info.saldoEfectivo);
+        if(campoOrigen.value === "Plata propia"){
+          let saldoDisp = parseFloat(info.saldoEfectivo);
 
-        if (importe > saldoDisp) {
-          invImp.innerHTML =
-            "El importe no puede ser mayor al fondo disponible";
-          campoImporte.className = "form-control is-invalid";
-          return;
+          if (importe > saldoDisp) {
+            invImp.innerHTML =
+              "El importe no puede ser mayor al fondo disponible";
+            campoImporte.className = "form-control is-invalid";
+            return;
+          }
         }
 
         break;
