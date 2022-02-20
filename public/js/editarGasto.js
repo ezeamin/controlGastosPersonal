@@ -183,6 +183,8 @@ function resetearSaldos(info) {
     }
   }
 
+  info.saldoViaje -= parseFloat(gasto.importe);
+
   return info;
 }
 
@@ -248,6 +250,8 @@ async function descontarDinero(origen, pago, importe) {
   } else if (pago == "TD") {
     info.saldoTD -= parseFloat(importe);
   }
+
+  info.saldoViaje += parseFloat(importe);
   
   await actualizarInfo(info);
 }

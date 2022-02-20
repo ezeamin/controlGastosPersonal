@@ -157,7 +157,7 @@ async function agregarATabla() {
 }
 
 async function cargarGastos() {
-  const gastos = await loadGastos(-1,"0");
+  const gastos = await loadGastos(-1, "0");
 
   efectivoPropio = 0;
   efectivoPapas = 0;
@@ -170,6 +170,7 @@ async function cargarGastos() {
   otroPapas = 0;
   let debo = 0;
   let aFavor = 0;
+  let saldoViaje = 0;
 
   gastos.forEach((gasto) => {
     if (
@@ -184,15 +185,14 @@ async function cargarGastos() {
       TCPropio += parseFloat(gasto.importe);
     else if (gasto.pago == "TD" && gasto.categoria != "Fondeo")
       TD += parseFloat(gasto.importe);
-    else if (gasto.pago == "Otro"){
+    else if (gasto.pago == "Otro") {
       otro += parseFloat(gasto.importe);
-      if(gasto.origen == "Plata propia")
+      if (gasto.origen == "Plata propia")
         otroPropio += parseFloat(gasto.importe);
       else if (gasto.origen == "Plata papas")
         otroPapas += parseFloat(gasto.importe);
-
-    }
-    else if (gasto.origen == "Plata ajena") ajena += parseFloat(gasto.importe);
+    } else if (gasto.origen == "Plata ajena")
+      ajena += parseFloat(gasto.importe);
 
     if (gasto.debo) debo += parseFloat(gasto.importe);
   });
@@ -502,7 +502,7 @@ function getInfo2(gastos) {
   let categorias = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   gastos.forEach((gasto) => {
-    if(gasto.origen === "Plata propia"){
+    if (gasto.origen === "Plata propia") {
       if (gasto.categoria == "Comida/Merienda") categorias[0] += gasto.importe;
       else if (gasto.categoria == "Super/Kiosko/Bebida")
         categorias[1] += gasto.importe;

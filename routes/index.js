@@ -61,7 +61,7 @@ router.get("/gastos/:min", async (req, res) => {
 
   let gastos;
   if (min == -1) {
-    gastos = await DbGastos.find({}, "pago origen importe categoria");
+    gastos = await DbGastos.find({}, "pago origen importe categoria fecha");
   } else if (min == -2) {
     gastos = await DbGastos.find({}).sort({ mongoDate: -1 });
   } else

@@ -10,6 +10,7 @@ const infoSchema = new Schema({
   iniciales: [Number],
   pagosPendientes: Number,
   limite: Number,
+  saldoViaje: Number,
 });
 
 module.exports = mongoose.model('Info', infoSchema);
