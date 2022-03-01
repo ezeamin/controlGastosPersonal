@@ -170,7 +170,6 @@ async function cargarGastos() {
   otroPapas = 0;
   let debo = 0;
   let aFavor = 0;
-  let saldoViaje = 0;
 
   gastos.forEach((gasto) => {
     if (

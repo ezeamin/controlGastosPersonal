@@ -184,7 +184,5 @@ async function descontarDinero(origen, pago,importe) {
     info.saldoTD -= parseFloat(importe);
   } 
 
-  info.saldoViaje += parseFloat(importe);
-
   await actualizarInfo(info);
 }
