@@ -139,8 +139,6 @@ async function crearGasto() {
 
   descontarDinero(campoOrigen.value, campoPago.value, campoImporte.value);
 
-  //limpiarFormulario();
-
   const data = await cargarGasto(gastoNuevo);
   if (data.code == "200") {
     document.getElementById("btnGuardar").disabled = false;
@@ -162,17 +160,6 @@ async function crearGasto() {
       confirmButtonText: "Ok",
     });
   }
-}
-
-function limpiarFormulario() {
-  campoConcepto.value = "";
-  campoCategoria.value = "0";
-  campoImporte.value = "";
-  campoPago.value = "0";
-  campoOrigen.value = "0";
-  campoComentario.value = "";
-
-  document.getElementById("disponible").style.display = "none";
 }
 
 async function descontarDinero(origen, pago,importe) {

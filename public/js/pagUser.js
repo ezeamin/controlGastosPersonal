@@ -455,7 +455,7 @@ function getInfo1(gastos) {
     "Gimnasia",
     "Auto/Nafta",
     "Estudios",
-    "Salud",
+    "Salud/Farmacia/Belleza",
     "Programados",
     "Varios",
   ];
