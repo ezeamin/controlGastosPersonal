@@ -38,6 +38,14 @@
     <main class="container my-5">
       <h1 class="display-1 text-center">Proximos pagos</h1>
       <hr class="m-0" />
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#modalAgregarPago"
+        class="btn btn-outline-success w-100 py-2 mb-2 mt-2"
+        id="agregarPago"
+      >
+        Agregar pago
+      </button>
       <div id="datosVacios">
         <p class="lead mb-1">No hay pagos pendientes</p>
         <p class="lead mb-0">¡Felicidades!</p>
@@ -48,14 +56,6 @@
             Total: <span id="totalPagos"></span><span id="fechaPago"></span>
           </p>
         </div>
-        <button
-          data-bs-toggle="modal"
-          data-bs-target="#modalAgregarPago"
-          class="btn btn-outline-success w-100 py-2 mb-2"
-          id="agregarPago"
-        >
-          Agregar pago
-        </button>
         <div class="table-responsive">
           <table class="table mt-3 bg-light" style="border-radius: 2%;">
             <thead>
